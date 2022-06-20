@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,13 +27,11 @@ namespace BusStationAutomatedInformationSystem
         public string Login { get; private set; } = String.Empty;
         public string Password { get; private set; } = String.Empty;
         public Users Users { get; private set; } = new Users(); // Экземпляр класса пользователей.
-        public string PasswordSalt { get; set; } = "Just bla bla to make password hash more safety"; // Эта соль накинется на пароль перед хэшированием, чтобы нельзя было его получить при помощи хеш таблицы
-
 
 /*        private void AddAdminUser()
         {
             Users.Logins.Add("admin");
-            Users.Passwords.Add("password");
+            Users.Passwords.Add(SHA256Hash(SHA256Hash("password")));
         }*/
         private void LoadUsers()
         {
@@ -62,7 +61,9 @@ namespace BusStationAutomatedInformationSystem
 
             for (int i = 0; i < Users.Logins.Count; i++) // Ищем пользователя и проверяем правильность пароля.
             {
-                if (Users.Logins[i] == loginTextBox.Text && Users.Passwords[i] == passwordTextBox.Text)
+                string shaPassword = SHA256Hash(SHA256Hash(passwordTextBox.Text)); 
+
+                if (Users.Logins[i] == loginTextBox.Text && Users.Passwords[i] == shaPassword)
                 {
                     Login = Users.Logins[i];
                     Password = Users.Passwords[i];
@@ -72,7 +73,7 @@ namespace BusStationAutomatedInformationSystem
                     isFinded = true;
                     break;
                 }
-                else if (Users.Logins[i] == loginTextBox.Text && passwordTextBox.Text != Users.Passwords[i])
+                else if (Users.Logins[i] == loginTextBox.Text && shaPassword != Users.Passwords[i])
                 {
                     Login = Users.Logins[i];
                     MessageBox.Show("Неверный пароль!");
@@ -94,8 +95,10 @@ namespace BusStationAutomatedInformationSystem
             {
                 if (!IsUserAlreadyExists(loginsCount))
                 {
+                    string shaPassword = SHA256Hash(SHA256Hash(passwordTextBox.Text));
+
                     Users.Logins.Add(loginTextBox.Text);
-                    Users.Passwords.Add(passwordTextBox.Text);
+                    Users.Passwords.Add(shaPassword);
 
                     StreamReader sr = new StreamReader("C:\\Repositories\\BusStationAutomatedInformationSystem\\Data\\Users.txt");
                     string resultString = JsonConvert.SerializeObject(Users);
@@ -111,6 +114,22 @@ namespace BusStationAutomatedInformationSystem
                 }
             }
             if(!isRegistered) { MessageBox.Show("Пользователь с таким логином уже существует"); }
+        }
+
+        public static String SHA256Hash(string value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (var hash = SHA256.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
         }
 
         private bool IsUserAlreadyExists(int loginsCount)
