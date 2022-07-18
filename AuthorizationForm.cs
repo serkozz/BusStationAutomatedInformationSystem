@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using Npgsql;
 
@@ -39,8 +40,8 @@ namespace BusStationAutomatedInformationSystem
 
                 if (result == 1)
                 {
+                    new MainForm(new User(loginTextBox.Text, passwordTextBox.Text)).Show();
                     this.Hide();
-                    new MainForm(_connectionString).Show();
                 }
                 else
                 {
@@ -69,8 +70,8 @@ namespace BusStationAutomatedInformationSystem
                     _cmd = new NpgsqlCommand(_sql, _connection);
                     _cmd.ExecuteScalar();
                     _connection.Close();
-                    this.Close();
-                    new MainForm(_connectionString).Show();
+                    new MainForm(new User(loginTextBox.Text, passwordTextBox.Text)).Show();
+                    this.Hide();
                 }
                 else
                 {

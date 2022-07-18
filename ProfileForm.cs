@@ -1,5 +1,4 @@
-﻿using Npgsql;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,18 +10,11 @@ using System.Windows.Forms;
 
 namespace BusStationAutomatedInformationSystem
 {
-    public partial class MainForm : Form
+    public partial class ProfileForm : Form
     {
-        private User _user;
-        public MainForm(User user)
+        public ProfileForm()
         {
-            _user = user;
             InitializeComponent();
-        }
-
-        private void profileButton_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
