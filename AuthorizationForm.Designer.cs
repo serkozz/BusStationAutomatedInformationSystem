@@ -60,7 +60,7 @@
             this.registerButton.Location = new System.Drawing.Point(12, 415);
             this.registerButton.Name = "registerButton";
             this.registerButton.Size = new System.Drawing.Size(458, 29);
-            this.registerButton.TabIndex = 2;
+            this.registerButton.TabIndex = 3;
             this.registerButton.Text = "Регистрация";
             this.registerButton.UseVisualStyleBackColor = true;
             this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
@@ -70,7 +70,7 @@
             this.loginButton.Location = new System.Drawing.Point(12, 380);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(458, 29);
-            this.loginButton.TabIndex = 3;
+            this.loginButton.TabIndex = 2;
             this.loginButton.Text = "Авторизация";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);

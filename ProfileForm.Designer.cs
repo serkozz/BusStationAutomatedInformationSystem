@@ -271,9 +271,9 @@ namespace BusStationAutomatedInformationSystem
             // 
             this.phoneNumberTextBox.Font = new System.Drawing.Font("Tahoma", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.phoneNumberTextBox.Location = new System.Drawing.Point(423, 548);
+            this.phoneNumberTextBox.MaxLength = 11;
             this.phoneNumberTextBox.Name = "phoneNumberTextBox";
             this.phoneNumberTextBox.Size = new System.Drawing.Size(321, 40);
-            this.phoneNumberTextBox.MaxLength = 11;
             this.phoneNumberTextBox.TabIndex = 22;
             this.phoneNumberTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxWithOnlyNumbersHandler);
             // 
@@ -297,6 +297,7 @@ namespace BusStationAutomatedInformationSystem
             this.cancelButton.TabIndex = 24;
             this.cancelButton.Text = "Отменить";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // label15
             // 

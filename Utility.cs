@@ -49,9 +49,9 @@ namespace BusStationAutomatedInformationSystem
                 {
                     string updateValuesCmd = @$"update profile set passport_id = {profile.PassportId}, address_id = {profile.AddressId}, surname = '{profile.Surname}', name = '{profile.Name}', midname = '{profile.Midname}', phone_number = {profile.PhoneNumber} where id = {(int)uniqueCheckResultId}";
                     _cmd = new NpgsqlCommand(updateValuesCmd, connection);
-                    var updatedValuesReturnedProfileId = _cmd.ExecuteScalar();
+                    _cmd.ExecuteScalar();
                     connection.Close();
-                    return (int)updatedValuesReturnedProfileId;
+                    return (int)uniqueCheckResultId;
                 }
                 else
                 {

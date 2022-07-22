@@ -14,14 +14,16 @@ namespace BusStationAutomatedInformationSystem
     public partial class ProfileForm : Form
     {
         private const string _connectionString = "Host=localhost;Username=postgres;Password=password;Database=AIS";
+
         private NpgsqlConnection _connection;
+        private MainForm mainForm;
         public Profile Profile { get; private set; }
-        public Profile ProfileUpdated { get; private set; }
         public Address Address { get; private set; }
         public Passport Passport { get; private set; }
-        public ProfileForm(Profile profile)
+        public ProfileForm(MainForm form, Profile profile)
         {
             _connection = new NpgsqlConnection(_connectionString);
+            mainForm = form;
             Profile = profile;
             Passport = Passport.GetPassportById(Profile.PassportId);
             Address = Address.GetAddressById(profile.AddressId);
@@ -72,6 +74,13 @@ namespace BusStationAutomatedInformationSystem
             if (Char.IsNumber(e.KeyChar) | e.KeyChar == '\b') return;
             else if (pasportSeriesTextBox.Text.Length == 4)
                 e.Handled = true;
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            mainForm.Location = this.Location;
+            mainForm.Show();
+            this.Close();
         }
     }
 }

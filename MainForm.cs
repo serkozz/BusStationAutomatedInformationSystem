@@ -24,7 +24,17 @@ namespace BusStationAutomatedInformationSystem
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-            new ProfileForm(_profile).Show();
+            ProfileForm profileForm = new ProfileForm(this, _profile);
+            profileForm.Location = this.Location;
+            profileForm.Show();
+            this.Hide();
+        }
+
+        private void adminPanelButton_Click(object sender, EventArgs e)
+        {
+            AdminPanel adminPanel = new AdminPanel(this);
+            adminPanel.Location = this.Location;
+            adminPanel.Show();
             this.Hide();
         }
     }

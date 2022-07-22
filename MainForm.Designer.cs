@@ -36,6 +36,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.routeButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.adminPanelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // profileButton
@@ -71,7 +73,7 @@
             // buyButton
             // 
             this.buyButton.Image = ((System.Drawing.Image)(resources.GetObject("buyButton.Image")));
-            this.buyButton.Location = new System.Drawing.Point(250, 177);
+            this.buyButton.Location = new System.Drawing.Point(12, 334);
             this.buyButton.Name = "buyButton";
             this.buyButton.Size = new System.Drawing.Size(173, 123);
             this.buyButton.TabIndex = 8;
@@ -81,7 +83,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(246, 146);
+            this.label3.Location = new System.Drawing.Point(12, 303);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(173, 28);
             this.label3.TabIndex = 9;
@@ -90,7 +92,7 @@
             // routeButton
             // 
             this.routeButton.Image = ((System.Drawing.Image)(resources.GetObject("routeButton.Image")));
-            this.routeButton.Location = new System.Drawing.Point(463, 177);
+            this.routeButton.Location = new System.Drawing.Point(12, 491);
             this.routeButton.Name = "routeButton";
             this.routeButton.Size = new System.Drawing.Size(173, 123);
             this.routeButton.TabIndex = 10;
@@ -100,17 +102,39 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(463, 146);
+            this.label4.Location = new System.Drawing.Point(12, 460);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(140, 28);
             this.label4.TabIndex = 11;
             this.label4.Text = "Маршруты";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(191, 146);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(305, 28);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Панель администратора";
+            // 
+            // adminPanelButton
+            // 
+            this.adminPanelButton.Image = ((System.Drawing.Image)(resources.GetObject("adminPanelButton.Image")));
+            this.adminPanelButton.Location = new System.Drawing.Point(254, 177);
+            this.adminPanelButton.Name = "adminPanelButton";
+            this.adminPanelButton.Size = new System.Drawing.Size(173, 123);
+            this.adminPanelButton.TabIndex = 12;
+            this.adminPanelButton.UseVisualStyleBackColor = true;
+            this.adminPanelButton.Click += new System.EventHandler(this.adminPanelButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 753);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.adminPanelButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.routeButton);
             this.Controls.Add(this.label3);
@@ -135,6 +159,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button routeButton;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button adminPanelButton;
     }
 }
 
