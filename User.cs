@@ -8,13 +8,15 @@ namespace BusStationAutomatedInformationSystem
 {
     public class User
     {
-        string login = string.Empty;
-        string password = string.Empty;
+        public int Id { get; private set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
 
-        public User(string login, string password)
+        public User(int id, string login, string password)
         {
-            this.login = login;
-            this.password = password;
+            Id = id;
+            Login = login;
+            Password = password;
         }
 
     }

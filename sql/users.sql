@@ -25,4 +25,5 @@ end
 $$
 language plpgsql;
 
-select * from users;
+--TRUNCATE users CASCADE;
+SELECT * FROM users;

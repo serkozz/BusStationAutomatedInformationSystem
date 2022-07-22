@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Windows.Forms;
 using Npgsql;
 
@@ -27,20 +28,28 @@ namespace BusStationAutomatedInformationSystem
         {
             try
             {
+                //GET
                 _connection.Open();
-                _sql = @"select * from user_login (:_login, :_password)";
+                _sql = @$"select (id,login,password) from users WHERE login = '{loginTextBox.Text}' AND password = '{Utility.GetSHA256(passwordTextBox.Text)}';";
                 _cmd = new NpgsqlCommand(_sql, _connection);
-
-                _cmd.Parameters.AddWithValue("_login", loginTextBox.Text);
-                _cmd.Parameters.AddWithValue("_password", Utility.GetSHA256(passwordTextBox.Text));
-
-                int result = (int)_cmd.ExecuteScalar();
-
+                object userResult = _cmd.ExecuteScalar();
+                object[] userArray = userResult as object[];
                 _connection.Close();
-
-                if (result == 1)
+                
+                if (userResult != null)
                 {
-                    new MainForm(new User(loginTextBox.Text, passwordTextBox.Text)).Show();
+                    _connection.Open();
+                    _sql = @$"select (id, user_id, passport_id, address_id, surname, name, midname, phone_number) from profile WHERE user_id = {(int)userArray[0]};";
+                    _cmd = new NpgsqlCommand(_sql, _connection);
+                    object profileResult = _cmd.ExecuteScalar();
+                    object[] profileArray = profileResult as object[]; 
+                    _connection.Close();
+
+                    User user = new User((int)userArray[0], userArray[1].ToString(), userArray[2].ToString());
+                    Profile profile = new Profile((int)profileArray[0], (int)profileArray[1], profileArray[2] as int?, profileArray[3] as int?,
+                    profileArray[4] as string, profileArray[5] as string, profileArray[6] as string, profileArray[7] as long?);
+
+                    new MainForm(user, profile).Show();
                     this.Hide();
                 }
                 else
@@ -66,11 +75,22 @@ namespace BusStationAutomatedInformationSystem
 
                 if (!isUserAlreadyExist)
                 {
-                    _sql = @$"insert into users (login, password) values ('{loginTextBox.Text}', '{Utility.GetSHA256(passwordTextBox.Text)}');";
+                    //INSERT into users
+                    _sql = @$"insert into users (login, password) values ('{loginTextBox.Text}', '{Utility.GetSHA256(passwordTextBox.Text)}') RETURNING (id,login,password);";
                     _cmd = new NpgsqlCommand(_sql, _connection);
-                    _cmd.ExecuteScalar();
+                    object userResult = _cmd.ExecuteScalar();
+                    object[] userArray = userResult as object[];
+
+                    _sql = @$"insert into profile (user_id) values ({(int)userArray[0]}) RETURNING (id, user_id, passport_id, address_id, surname, name, midname, phone_number)";
+                    _cmd = new NpgsqlCommand(_sql, _connection);
+                    object profileResult = _cmd.ExecuteScalar();
+                    object[] profileArray = profileResult as object[];
                     _connection.Close();
-                    new MainForm(new User(loginTextBox.Text, passwordTextBox.Text)).Show();
+
+                    User user = new User((int)userArray[0], userArray[1].ToString(), userArray[2].ToString());
+                    Profile profile = new Profile((int)profileArray[0], (int)profileArray[1], null, null, null, null, null, null);
+
+                    new MainForm(user, profile).Show();
                     this.Hide();
                 }
                 else

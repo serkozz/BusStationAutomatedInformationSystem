@@ -14,15 +14,18 @@ namespace BusStationAutomatedInformationSystem
     public partial class MainForm : Form
     {
         private User _user;
-        public MainForm(User user)
+        private Profile _profile;
+        public MainForm(User user, Profile profile)
         {
             _user = user;
+            _profile = profile;
             InitializeComponent();
         }
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-
+            new ProfileForm(_profile).Show();
+            this.Hide();
         }
     }
 }
