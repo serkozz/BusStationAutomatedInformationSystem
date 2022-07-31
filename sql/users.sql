@@ -27,3 +27,4 @@ language plpgsql;
 
 --TRUNCATE users CASCADE;
 SELECT * FROM users;
+SELECT column_name FROM information_schema.columns where table_name = 'users';

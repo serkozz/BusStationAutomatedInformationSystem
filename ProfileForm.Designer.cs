@@ -34,7 +34,7 @@ namespace BusStationAutomatedInformationSystem
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.pasportSeriesTextBox = new System.Windows.Forms.TextBox();
+            this.passportSeriesTextBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.passportNumberTextBox = new System.Windows.Forms.TextBox();
@@ -149,15 +149,15 @@ namespace BusStationAutomatedInformationSystem
             this.label7.TabIndex = 9;
             this.label7.Text = "Паспорт:";
             // 
-            // pasportSeriesTextBox
+            // passportSeriesTextBox
             // 
-            this.pasportSeriesTextBox.Font = new System.Drawing.Font("Tahoma", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.pasportSeriesTextBox.Location = new System.Drawing.Point(350, 326);
-            this.pasportSeriesTextBox.MaxLength = 4;
-            this.pasportSeriesTextBox.Name = "pasportSeriesTextBox";
-            this.pasportSeriesTextBox.Size = new System.Drawing.Size(149, 40);
-            this.pasportSeriesTextBox.TabIndex = 10;
-            this.pasportSeriesTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxWithOnlyNumbersHandler);
+            this.passportSeriesTextBox.Font = new System.Drawing.Font("Tahoma", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.passportSeriesTextBox.Location = new System.Drawing.Point(350, 326);
+            this.passportSeriesTextBox.MaxLength = 4;
+            this.passportSeriesTextBox.Name = "passportSeriesTextBox";
+            this.passportSeriesTextBox.Size = new System.Drawing.Size(149, 40);
+            this.passportSeriesTextBox.TabIndex = 10;
+            this.passportSeriesTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxWithOnlyNumbersHandler);
             // 
             // label8
             // 
@@ -327,7 +327,7 @@ namespace BusStationAutomatedInformationSystem
             this.Controls.Add(this.label9);
             this.Controls.Add(this.passportNumberTextBox);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.pasportSeriesTextBox);
+            this.Controls.Add(this.passportSeriesTextBox);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -354,7 +354,7 @@ namespace BusStationAutomatedInformationSystem
         private Label label5;
         private Label label6;
         private Label label7;
-        private TextBox pasportSeriesTextBox;
+        private TextBox passportSeriesTextBox;
         private Label label8;
         private Label label9;
         private TextBox passportNumberTextBox;

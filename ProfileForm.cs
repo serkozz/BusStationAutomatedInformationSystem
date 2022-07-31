@@ -36,7 +36,7 @@ namespace BusStationAutomatedInformationSystem
             nameTextBox.Text = Profile.Name;
             surnameTextBox.Text = Profile.Surname;
             midnameTextBox.Text = Profile.Midname;
-            pasportSeriesTextBox.Text = Passport.Series.ToString();
+            passportSeriesTextBox.Text = Passport.Series.ToString();
             passportNumberTextBox.Text = Passport.Number.ToString();
             addressCityTextBox.Text = Address.City;
             addressStreetTextBox.Text = Address.Street;
@@ -48,12 +48,27 @@ namespace BusStationAutomatedInformationSystem
         {
             try
             {
-                Passport = new Passport(Int32.Parse(pasportSeriesTextBox.Text), Int32.Parse(passportNumberTextBox.Text));
-                int passportId = Passport.DropToDB();
-                Address = new Address(this.addressCityTextBox.Text, this.addressStreetTextBox.Text, Convert.ToInt32(this.addressHouseTextBox.Text));
-                int addressId = Address.DropToDB();
+                int? passportId = null;
+
+                if (passportSeriesTextBox.Text != string.Empty && passportSeriesTextBox.Text.Length == 4 && passportNumberTextBox.Text != string.Empty && passportNumberTextBox.Text.Length == 6)
+                {
+                    Passport = new Passport(Int32.Parse(passportSeriesTextBox.Text), Int32.Parse(passportNumberTextBox.Text));
+                    passportId = Passport.DropToDB();
+                }
+
+                int? addressId = null;
+
+                if (addressCityTextBox.Text != string.Empty && addressStreetTextBox.Text != string.Empty && addressHouseTextBox.Text != string.Empty)
+                {
+                    Address = new Address(this.addressCityTextBox.Text, this.addressStreetTextBox.Text, Convert.ToInt32(this.addressHouseTextBox.Text));
+                    addressId = Address.DropToDB();
+                }
+                if (addressId == null || passportId == null)
+                    MessageBox.Show(@$"Данные о паспорте или об адресе не были обновлены, так как указан неверный формат данных!!! addressId = {addressId}, passportId = {passportId}", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 Profile = new Profile(Profile.Id, Profile.UserId, passportId, addressId, surnameTextBox.Text, nameTextBox.Text, midnameTextBox.Text, Int64.Parse(phoneNumberTextBox.Text));
                 Profile.DropToDB();
+
                 MessageBox.Show("Данные профиля успешно обновлены!!!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (System.Exception ex)
@@ -72,13 +87,14 @@ namespace BusStationAutomatedInformationSystem
         private void TextBoxWithOnlyNumbersHandler(object sender, KeyPressEventArgs e)
         {
             if (Char.IsNumber(e.KeyChar) | e.KeyChar == '\b') return;
-            else if (pasportSeriesTextBox.Text.Length == 4)
+            else if (passportSeriesTextBox.Text.Length == 4)
                 e.Handled = true;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
             mainForm.Location = this.Location;
+            mainForm.UpdateProfileData(Profile);
             mainForm.Show();
             this.Close();
         }

@@ -37,5 +37,10 @@ namespace BusStationAutomatedInformationSystem
             adminPanel.Show();
             this.Hide();
         }
+
+        public void UpdateProfileData(Profile profile)
+        {
+            _profile = profile;
+        }
     }
 }
