@@ -32,7 +32,7 @@ namespace BusStationAutomatedInformationSystem
 
         private void adminPanelButton_Click(object sender, EventArgs e)
         {
-            AdminPanel adminPanel = new AdminPanel(this);
+            AdminPanel adminPanel = new AdminPanel(this, _profile);
             adminPanel.Location = this.Location;
             adminPanel.Show();
             this.Hide();
@@ -41,6 +41,11 @@ namespace BusStationAutomatedInformationSystem
         public void UpdateProfileData(Profile profile)
         {
             _profile = profile;
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -73,21 +73,25 @@ namespace BusStationAutomatedInformationSystem
     public partial class AdminPanel : Form
     {
         private MainForm mainForm;
+        private Profile profile;
         private NpgsqlConnection connection;
         private NpgsqlDataAdapter dataAdapter;
         private NpgsqlCommandBuilder commandBuilder;
         private DataSet dataSet;
         private bool newRowAdding = false;
         private CurrentTable currentTable;
-        public AdminPanel(MainForm form)
+
+        public AdminPanel(MainForm form, Profile profile)
         {
             mainForm = form;
+            this.profile = profile;
             InitializeComponent();
         }
 
         private void backButton_Click(object sender, EventArgs e)
         {
             mainForm.Location = this.Location;
+            //mainForm.UpdateProfileData();
             mainForm.Show();
             this.Close();
         }
@@ -97,6 +101,7 @@ namespace BusStationAutomatedInformationSystem
             connection = new NpgsqlConnection(Constants._connectionString);
             connection.Open();
             currentTable = new CurrentTable("users");
+            tableComboBox.SelectedValue = "users";
             FIllComboboxWithTables();
             LoadData();
         }
@@ -171,12 +176,12 @@ namespace BusStationAutomatedInformationSystem
                             int rowIndex = e.RowIndex;
                             dataGridView1.Rows.RemoveAt(rowIndex);
                             dataSet.Tables[currentTable.TableName].Rows[rowIndex].Delete();
-                            dataAdapter.Update(dataSet, currentTable.TableName);
+                            int result = dataAdapter.Update(dataSet, currentTable.TableName);
                         }
                     }
                     else if (task == "Insert")
                     {
-                        int rowIndex = dataGridView1.Rows.Count - 2;
+                        int rowIndex = dataGridView1.Rows.Count - 2; // - 2 was
                         DataRow row = dataSet.Tables[currentTable.TableName].NewRow();
 
                         for (var i = 0; i < currentTable.ColumnsCount; i++)
@@ -187,26 +192,31 @@ namespace BusStationAutomatedInformationSystem
                                 row[currentTable.ColumnsNames[i]] = dataGridView1.Rows[rowIndex].Cells[currentTable.ColumnsNames[i]].Value;
                         }
 
-                        dataSet.Tables["users"].Rows.Add(row);
-                        dataSet.Tables["users"].Rows.RemoveAt(dataSet.Tables["users"].Rows.Count - 1);
+                        dataSet.Tables[currentTable.TableName].Rows.Add(row);
+                        dataSet.Tables[currentTable.TableName].Rows.RemoveAt(dataSet.Tables[currentTable.TableName].Rows.Count - 1);
                         dataGridView1.Rows.RemoveAt(dataGridView1.Rows.Count - 2);
-                        dataGridView1.Rows[e.RowIndex].Cells[3].Value = "Delete";
+                        dataGridView1.Rows[e.RowIndex].Cells[currentTable.ColumnsCount].Value = "Delete";
 
-                        dataAdapter.Update(dataSet, "users");
+                        int result = dataAdapter.Update(dataSet, currentTable.TableName);
                         newRowAdding = false;
                     }
+
                     else if (task == "Update")
                     {
                         int rowIndex = e.RowIndex;
 
-                        dataSet.Tables["users"].Rows[rowIndex]["login"] = dataGridView1.Rows[rowIndex].Cells["login"].Value;
-                        dataSet.Tables["users"].Rows[rowIndex]["password"] = Utility.GetSHA256(dataGridView1.Rows[rowIndex].Cells["password"].Value.ToString());
+                        foreach (string columnName in currentTable.ColumnsNames)
+                        {
+                            dataSet.Tables[currentTable.TableName].Rows[rowIndex][columnName] = dataGridView1.Rows[rowIndex].Cells[columnName].Value;
+                        }
 
-                        dataAdapter.Update(dataSet, "users");
-                        dataGridView1.Rows[e.RowIndex].Cells[3].Value = "Delete";
+                        if (currentTable.TableName == "users")
+                            dataSet.Tables["users"].Rows[rowIndex]["password"] = Utility.GetSHA256(dataGridView1.Rows[rowIndex].Cells["password"].Value.ToString());
+
+                        int result = dataAdapter.Update(dataSet, currentTable.TableName);
+                        dataGridView1.Rows[e.RowIndex].Cells[currentTable.ColumnsCount].Value = "Delete";
                     }
-
-                    ReloadData();
+                    LoadData(); /////////// Reload data was
                 }
             }
             catch (System.Exception ex)
@@ -225,7 +235,7 @@ namespace BusStationAutomatedInformationSystem
                     int lastRow = dataGridView1.Rows.Count - 2;
                     DataGridViewRow row = dataGridView1.Rows[lastRow];
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-                    dataGridView1[3, lastRow] = linkCell;
+                    dataGridView1[currentTable.ColumnsCount, lastRow] = linkCell;
                     row.Cells["Command"].Value = "Insert";
                 }
             }
@@ -245,7 +255,7 @@ namespace BusStationAutomatedInformationSystem
 
                     DataGridViewRow editingRow = dataGridView1.Rows[rowIndex];
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-                    dataGridView1[3, rowIndex] = linkCell;
+                    dataGridView1[currentTable.ColumnsCount, rowIndex] = linkCell; // columns count of datagrid != columns of tables (added command column in datagrid)
                     editingRow.Cells["Command"].Value = "Update";
                 }
             }

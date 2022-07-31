@@ -67,27 +67,6 @@ namespace BusStationAutomatedInformationSystem
                 return -1;
             }
         }
-
-        // public static void UpdateProfileData(this Profile profile)
-        // {
-        //     try
-        //     {
-        //         string _sql = @$"select * from profile WHERE user_id = {profile.UserId}";
-        //         object addressResult = _cmd.ExecuteScalar();
-        //         object[] addressArray = addressResult as object[];
-
-        //         Npgsql.NpgsqlConnection connection = new Npgsql.NpgsqlConnection(Constants._connectionString);
-        //         connection.Open();
-        //         string uniqueCheckCmd = @$"select (id) from profile where user_id = {profile.UserId}";
-        //         string cmdText = @$"insert into profile (user_id,passport_id,address_id,surname,name,midname,phone_number) values ({profile.UserId}, {profile.PassportId}, {profile.AddressId}, '{profile.Surname}', '{profile.Name}', '{profile.Midname}', {profile.PhoneNumber}) RETURNING id";
-        //         var _cmd = new Npgsql.NpgsqlCommand(uniqueCheckCmd, connection);
-        //         var uniqueCheckResultId = _cmd.ExecuteScalar();
-        //     }
-        //     catch (System.Exception ex)
-        //     {
-        //         System.Windows.Forms.MessageBox.Show("Не удалось обновить данные о профиле!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-        //     }
-        // }
     }
 
     public static class AddressExtensions

@@ -105,5 +105,10 @@ namespace BusStationAutomatedInformationSystem
                 MessageBox.Show("Упс, что-то пошло не так: " + ex.Message, "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void AuthorizationForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
