@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthorizationForm));
             this.loginTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.registerButton = new System.Windows.Forms.Button();
@@ -38,40 +39,46 @@
             // 
             // loginTextBox
             // 
-            this.loginTextBox.Location = new System.Drawing.Point(12, 281);
+            this.loginTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.loginTextBox.Location = new System.Drawing.Point(12, 197);
             this.loginTextBox.Name = "loginTextBox";
             this.loginTextBox.PlaceholderText = "Логин";
-            this.loginTextBox.Size = new System.Drawing.Size(458, 27);
+            this.loginTextBox.Size = new System.Drawing.Size(458, 35);
             this.loginTextBox.TabIndex = 0;
             this.loginTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(12, 329);
+            this.passwordTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.passwordTextBox.Location = new System.Drawing.Point(12, 250);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.PlaceholderText = "Пароль";
-            this.passwordTextBox.Size = new System.Drawing.Size(458, 27);
+            this.passwordTextBox.Size = new System.Drawing.Size(458, 35);
             this.passwordTextBox.TabIndex = 1;
             this.passwordTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // registerButton
             // 
-            this.registerButton.Location = new System.Drawing.Point(12, 415);
+            this.registerButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.registerButton.Image = ((System.Drawing.Image)(resources.GetObject("registerButton.Image")));
+            this.registerButton.Location = new System.Drawing.Point(246, 301);
             this.registerButton.Name = "registerButton";
-            this.registerButton.Size = new System.Drawing.Size(458, 29);
+            this.registerButton.Size = new System.Drawing.Size(224, 140);
             this.registerButton.TabIndex = 3;
-            this.registerButton.Text = "Регистрация";
+            this.registerButton.Text = "\r\n\r\n\r\nРегистрация";
             this.registerButton.UseVisualStyleBackColor = true;
             this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(12, 380);
+            this.loginButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.loginButton.Image = ((System.Drawing.Image)(resources.GetObject("loginButton.Image")));
+            this.loginButton.Location = new System.Drawing.Point(12, 301);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(458, 29);
+            this.loginButton.Size = new System.Drawing.Size(228, 140);
             this.loginButton.TabIndex = 2;
-            this.loginButton.Text = "Авторизация";
+            this.loginButton.Text = "\r\n\r\n\r\nАвторизация";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
@@ -79,7 +86,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(125, 200);
+            this.label1.Location = new System.Drawing.Point(125, 100);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(241, 40);
             this.label1.TabIndex = 4;
@@ -89,7 +96,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(80, 86);
+            this.label2.Location = new System.Drawing.Point(80, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(329, 40);
             this.label2.TabIndex = 5;

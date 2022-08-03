@@ -24,6 +24,7 @@ namespace BusStationAutomatedInformationSystem
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProfileForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.surnameTextBox = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@ namespace BusStationAutomatedInformationSystem
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
+            this.routesHistoryButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -280,22 +282,24 @@ namespace BusStationAutomatedInformationSystem
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.saveButton.Location = new System.Drawing.Point(536, 696);
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.Location = new System.Drawing.Point(571, 618);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(208, 45);
-            this.saveButton.TabIndex = 23;
-            this.saveButton.Text = "Сохранить";
+            this.saveButton.Size = new System.Drawing.Size(173, 123);
+            this.saveButton.TabIndex = 25;
+            this.saveButton.Text = "\r\n\r\n\r\nСохранить";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // cancelButton
             // 
             this.cancelButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cancelButton.Location = new System.Drawing.Point(322, 696);
+            this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
+            this.cancelButton.Location = new System.Drawing.Point(392, 618);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(208, 45);
+            this.cancelButton.Size = new System.Drawing.Size(173, 123);
             this.cancelButton.TabIndex = 24;
-            this.cancelButton.Text = "Отменить";
+            this.cancelButton.Text = "\r\n\r\n\r\nНа главную";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
@@ -309,9 +313,21 @@ namespace BusStationAutomatedInformationSystem
             this.label15.TabIndex = 25;
             this.label15.Text = "*";
             // 
+            // routesHistoryButton
+            // 
+            this.routesHistoryButton.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.routesHistoryButton.Image = ((System.Drawing.Image)(resources.GetObject("routesHistoryButton.Image")));
+            this.routesHistoryButton.Location = new System.Drawing.Point(112, 618);
+            this.routesHistoryButton.Name = "routesHistoryButton";
+            this.routesHistoryButton.Size = new System.Drawing.Size(173, 123);
+            this.routesHistoryButton.TabIndex = 23;
+            this.routesHistoryButton.Text = "\r\n\r\n\r\nИстория";
+            this.routesHistoryButton.UseVisualStyleBackColor = true;
+            // 
             // ProfileForm
             // 
             this.ClientSize = new System.Drawing.Size(982, 753);
+            this.Controls.Add(this.routesHistoryButton);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
@@ -370,5 +386,6 @@ namespace BusStationAutomatedInformationSystem
         private Button saveButton;
         private Button cancelButton;
         private Label label15;
+        private Button routesHistoryButton;
     }
 }

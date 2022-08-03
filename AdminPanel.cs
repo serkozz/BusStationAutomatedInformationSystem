@@ -1,75 +1,11 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
-using Npgsql;
 
 namespace BusStationAutomatedInformationSystem
 {
-    public class CurrentTable
-    {
-        public string TableName { get; }
-        public int ColumnsCount { get; }
-        public string[] ColumnsNames { get; }
-
-        public CurrentTable(string name)
-        {
-            TableName = name;
-            ColumnsCount = GetColumnsCount();
-            ColumnsNames = GetColumnsNames();
-        }
-
-        private int GetColumnsCount()
-        {
-            try
-            {
-                NpgsqlConnection _connection = new NpgsqlConnection(Constants._connectionString);
-                _connection.Open();
-                string cmdText = @$"SELECT COUNT(*) FROM information_schema.columns where table_name = '{TableName}';";
-                var _cmd = new NpgsqlCommand(cmdText, _connection);
-                int count = Int32.Parse(_cmd.ExecuteScalar().ToString());
-                _connection.Close();
-                return count;
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return -1;
-            }
-        }
-
-        private string[] GetColumnsNames()
-        {
-            try
-            {
-                List<string> columnsNames = new List<string>();
-
-                NpgsqlConnection _connection = new NpgsqlConnection(Constants._connectionString);
-                _connection.Open();
-                string cmdText = @$"SELECT column_name FROM information_schema.columns where table_name = '{TableName}';";
-                var _cmd = new NpgsqlCommand(cmdText, _connection);
-                NpgsqlDataReader reader = _cmd.ExecuteReader();
-                
-                if(reader.HasRows) // если есть данные
-                {
-                    while (reader.Read()) // построчно считываем данные
-                    {
-                        string columnName = reader.GetValue(0).ToString();
-                        columnsNames.Add(columnName);
-                    }
-                }
-
-                _connection.Close();
-                return columnsNames.ToArray();
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-    }
-
     public partial class AdminPanel : Form
     {
         private MainForm mainForm;
@@ -79,7 +15,7 @@ namespace BusStationAutomatedInformationSystem
         private NpgsqlCommandBuilder commandBuilder;
         private DataSet dataSet;
         private bool newRowAdding = false;
-        private CurrentTable currentTable;
+        private Table currentTable;
 
         public AdminPanel(MainForm form, Profile profile)
         {
@@ -100,7 +36,7 @@ namespace BusStationAutomatedInformationSystem
         {
             connection = new NpgsqlConnection(Constants._connectionString);
             connection.Open();
-            currentTable = new CurrentTable("users");
+            currentTable = new Table("users");
             tableComboBox.SelectedValue = "users";
             FIllComboboxWithTables();
             LoadData();
@@ -133,32 +69,6 @@ namespace BusStationAutomatedInformationSystem
             {
                 MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void ReloadData()
-        {
-            try
-            {
-                dataSet.Tables[currentTable.TableName].Clear();
-                dataAdapter.Fill(dataSet, currentTable.TableName);
-                dataGridView1.DataSource = dataSet.Tables[currentTable.TableName];
-
-                for (var i = 0; i < dataGridView1.Rows.Count; i++)
-                {
-                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-
-                    dataGridView1[currentTable.ColumnsCount, i] = linkCell;
-                }
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void updateButton_Click(object sender, EventArgs e)
-        {
-            ReloadData();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -291,7 +201,7 @@ namespace BusStationAutomatedInformationSystem
                 var _cmd = new NpgsqlCommand(getTablesNamesCmd, _connection);
                 NpgsqlDataReader reader = _cmd.ExecuteReader();
 
-                if(reader.HasRows) // если есть данные
+                if (reader.HasRows) // если есть данные
                 {
                     while (reader.Read()) // построчно считываем данные
                     {
@@ -309,8 +219,72 @@ namespace BusStationAutomatedInformationSystem
 
         private void tableComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentTable = new CurrentTable((string)tableComboBox.SelectedItem.ToString());
+            currentTable = new Table((string)tableComboBox.SelectedItem.ToString());
             LoadData();
+        }
+    }
+
+        public class Table
+    {
+        public string TableName { get; }
+        public int ColumnsCount { get; }
+        public string[] ColumnsNames { get; }
+
+        public Table(string name)
+        {
+            TableName = name;
+            ColumnsCount = GetColumnsCount();
+            ColumnsNames = GetColumnsNames();
+        }
+
+        private int GetColumnsCount()
+        {
+            try
+            {
+                NpgsqlConnection _connection = new NpgsqlConnection(Constants._connectionString);
+                _connection.Open();
+                string cmdText = @$"SELECT COUNT(*) FROM information_schema.columns where table_name = '{TableName}';";
+                var _cmd = new NpgsqlCommand(cmdText, _connection);
+                int count = Int32.Parse(_cmd.ExecuteScalar().ToString());
+                _connection.Close();
+                return count;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
+            }
+        }
+
+        private string[] GetColumnsNames()
+        {
+            try
+            {
+                List<string> columnsNames = new List<string>();
+
+                NpgsqlConnection _connection = new NpgsqlConnection(Constants._connectionString);
+                _connection.Open();
+                string cmdText = @$"SELECT column_name FROM information_schema.columns where table_name = '{TableName}';";
+                var _cmd = new NpgsqlCommand(cmdText, _connection);
+                NpgsqlDataReader reader = _cmd.ExecuteReader();
+
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read()) // построчно считываем данные
+                    {
+                        string columnName = reader.GetValue(0).ToString();
+                        columnsNames.Add(columnName);
+                    }
+                }
+
+                _connection.Close();
+                return columnsNames.ToArray();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
         }
     }
 }

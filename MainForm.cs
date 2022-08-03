@@ -14,17 +14,17 @@ namespace BusStationAutomatedInformationSystem
     public partial class MainForm : Form
     {
         private User _user;
-        private Profile _profile;
+        public Profile Profile { get; private set; }
         public MainForm(User user, Profile profile)
         {
             _user = user;
-            _profile = profile;
+            Profile = profile;
             InitializeComponent();
         }
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-            ProfileForm profileForm = new ProfileForm(this, _profile);
+            ProfileForm profileForm = new ProfileForm(this, Profile);
             profileForm.Location = this.Location;
             profileForm.Show();
             this.Hide();
@@ -32,20 +32,24 @@ namespace BusStationAutomatedInformationSystem
 
         private void adminPanelButton_Click(object sender, EventArgs e)
         {
-            AdminPanel adminPanel = new AdminPanel(this, _profile);
-            adminPanel.Location = this.Location;
-            adminPanel.Show();
+            AdminPermissionForm adminPermissionForm = new AdminPermissionForm(this);
+            adminPermissionForm.Show();
             this.Hide();
         }
 
         public void UpdateProfileData(Profile profile)
         {
-            _profile = profile;
+            Profile = profile;
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void routeButton_Click(object sender, EventArgs e)
+        {
+            RouteForm routeForm = new RouteForm(this, this.Profile);
         }
     }
 }

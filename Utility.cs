@@ -7,6 +7,7 @@ namespace BusStationAutomatedInformationSystem
     public static class Constants
     {
         public const string _connectionString = "Host=localhost;Username=postgres;Password=password;Database=AIS";
+        public const string _adminPassword = "adminPassword";
     }
 
     public static class Utility
