@@ -12,16 +12,18 @@ namespace BusStationAutomatedInformationSystem
 {
     public partial class AdminPermissionForm : Form
     {
-        MainForm mainForm;
+        private MainForm mainForm;
+        private string adminPassword; 
         public AdminPermissionForm(MainForm mainForm)
         {
             this.mainForm = mainForm;
+            adminPassword = Utility.GetParameterValueByName("adminPassword");
             InitializeComponent();
         }
 
         private void enterButton_Click(object sender, EventArgs e)
         {
-            if (passwordBox.Text == Constants._adminPassword)
+            if (passwordBox.Text == adminPassword)
             {
                 AdminPanel adminPanel = new AdminPanel(mainForm, mainForm.Profile);
                 adminPanel.Location = mainForm.Location;

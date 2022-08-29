@@ -122,6 +122,8 @@
             this.routeGrid.RowTemplate.Height = 29;
             this.routeGrid.Size = new System.Drawing.Size(1158, 480);
             this.routeGrid.TabIndex = 20;
+            this.routeGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.routeGrid_CellClick);
+            this.routeGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.routeGrid_RowHeaderMouseClick);
             // 
             // label1
             // 
@@ -214,12 +216,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView routeGrid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox routeNumberTextBox;
         private System.Windows.Forms.TextBox departurePointTextBox;
         private System.Windows.Forms.TextBox destinationPointTextBox;
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Button buyTicketButton;
+        public System.Windows.Forms.DataGridView routeGrid;
     }
 }

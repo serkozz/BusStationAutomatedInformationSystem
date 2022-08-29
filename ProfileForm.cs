@@ -6,8 +6,6 @@ namespace BusStationAutomatedInformationSystem
 {
     public partial class ProfileForm : Form
     {
-        private const string _connectionString = "Host=localhost;Username=postgres;Password=password;Database=AIS";
-
         private NpgsqlConnection _connection;
         private MainForm mainForm;
         public Profile Profile { get; private set; }
@@ -15,7 +13,7 @@ namespace BusStationAutomatedInformationSystem
         public Passport Passport { get; private set; }
         public ProfileForm(MainForm form, Profile profile)
         {
-            _connection = new NpgsqlConnection(_connectionString);
+            _connection = new NpgsqlConnection(Constants._connectionString);
             mainForm = form;
             Profile = profile;
             Passport = Passport.GetPassportById(Profile.PassportId);
@@ -90,6 +88,14 @@ namespace BusStationAutomatedInformationSystem
             mainForm.UpdateProfileData(Profile);
             mainForm.Show();
             this.Close();
+        }
+
+        private void routesHistoryButton_Click(object sender, EventArgs e)
+        {
+            TripHistoryForm tripHistoryForm = new TripHistoryForm(Profile, this);
+            tripHistoryForm.Location = this.Location;
+            tripHistoryForm.Show();
+            this.Hide();
         }
     }
 }

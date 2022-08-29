@@ -323,6 +323,7 @@ namespace BusStationAutomatedInformationSystem
             this.routesHistoryButton.TabIndex = 23;
             this.routesHistoryButton.Text = "\r\n\r\n\r\nИстория";
             this.routesHistoryButton.UseVisualStyleBackColor = true;
+            this.routesHistoryButton.Click += new System.EventHandler(this.routesHistoryButton_Click);
             // 
             // ProfileForm
             // 

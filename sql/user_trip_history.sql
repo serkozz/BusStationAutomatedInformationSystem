@@ -1,4 +1,4 @@
-create table if not exists userTripHistory
+create table if not exists user_trip_history
 (
     id SERIAL PRIMARY KEY,
     profile_id INTEGER REFERENCES profile (id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -6,4 +6,4 @@ create table if not exists userTripHistory
     trip_date DATE
 );
 
-SELECT * FROM userTripHistory;
+SELECT * FROM user_trip_history;

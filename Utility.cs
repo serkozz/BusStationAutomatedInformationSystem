@@ -7,7 +7,6 @@ namespace BusStationAutomatedInformationSystem
     public static class Constants
     {
         public const string _connectionString = "Host=localhost;Username=postgres;Password=password;Database=AIS";
-        public const string _adminPassword = "adminPassword";
     }
 
     public static class Utility
@@ -25,6 +24,33 @@ namespace BusStationAutomatedInformationSystem
                     sb.Append(b.ToString("x2"));
             }
             return sb.ToString();
+        }
+
+        public static string GetParameterValueByName(string paramName)
+        {
+            try
+            {
+                Npgsql.NpgsqlConnection connection = new Npgsql.NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string cmdText = @$"select parameter_value from utility_table where parameter = '{paramName}'";
+                var _cmd = new Npgsql.NpgsqlCommand(cmdText, connection);
+                var result = _cmd.ExecuteScalar();
+                connection.Close();
+
+                if (result != null) // Найден дубликат, ничего не добавляем, обновляем уже существующий экземпляр
+                {
+                    return result.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(@$"Не удалось получить значение параметра: {paramName} -----" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return string.Empty;
+            }
         }
     }
 
@@ -256,14 +282,14 @@ namespace BusStationAutomatedInformationSystem
             }
         }
 
-        public static string GetTravelDistanceById(this Route route)
+        public static string GetTripDistanceById(this Route route)
         {
             try
             {
                 //GET
                 NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
                 connection.Open();
-                string _sql = @$"select (city,street,house) from address WHERE id = {route.DestinationPointId}";
+                string _sql = @$"select trip_distance from route WHERE id = {route.Id}";
                 var _cmd = new NpgsqlCommand(_sql, connection);
                 object result = _cmd.ExecuteScalar();
                 object[] resultArray = result as object[];
@@ -281,4 +307,31 @@ namespace BusStationAutomatedInformationSystem
             }
         }
     }
+
+    public static class TicketExtensions
+    {
+        public static int DropToDB(this Ticket ticket)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"insert into ticket (profile_id,route_id,trip_date,price) values ({ticket.ProfileId}, {ticket.RouteId}, '{ticket.TripDate.Year.ToString()}-{ticket.TripDate.Month.ToString()}-{ticket.TripDate.Day.ToString()}', {ticket.Price}) RETURNING id";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                object result = _cmd.ExecuteScalar();
+                connection.Close();
+
+                if (result != null)
+                    return (int)result;
+                else
+                    return -1;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось обновить данные о билете!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return -1;  
+            }
+            }
+        }
 }

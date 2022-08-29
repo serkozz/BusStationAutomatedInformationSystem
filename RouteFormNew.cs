@@ -15,7 +15,7 @@ namespace BusStationAutomatedInformationSystem
         private DataTable routeDataTable = new DataTable("route");
         private DataTable filteredDataTable;
         private DataSet routeDataSet = new DataSet("route");
-
+        public Route SelectedRoute { get; private set; }
 
         public RouteFormNew(MainForm mainForm, Profile profile)
         {
@@ -24,6 +24,8 @@ namespace BusStationAutomatedInformationSystem
             InitializeComponent();
             GetRoutesInfoFromDB();
             CreateDataGridViewFromRoutesList();
+            // Отключение кнопки покупки билета при отсутствии выделения строки маршрута
+            buyTicketButton.Enabled = false;
         }
 
         private void backButton_Click(object sender, EventArgs e)
@@ -51,7 +53,7 @@ namespace BusStationAutomatedInformationSystem
                                     Int32.Parse(reader.GetValue(2).ToString()),
                                     Int32.Parse(reader.GetValue(3).ToString()),
                                     reader.GetValue(4).ToString(),
-                                    reader.GetValue(5).ToString()));
+                                    reader.GetValue(5).ToString(), float.Parse(reader.GetValue(6).ToString())));
                     }
                 }
                 _connection.Close();
@@ -186,7 +188,28 @@ namespace BusStationAutomatedInformationSystem
 
         private void buyTicketButton_Click(object sender, EventArgs e)
         {
-            
+            DataGridViewSelectedRowCollection selected = routeGrid.SelectedRows;
+
+            SelectedRoute = RoutesList.Find(x => x.Id == Int32.Parse(selected[0].Cells[0].Value.ToString()));
+            this.Hide();
+            TicketPurchaseForm ticketPurchaseForm = new TicketPurchaseForm(Profile, this);
+            ticketPurchaseForm.Location = this.Location;
+            ticketPurchaseForm.Show();
+        }
+
+        // Включает кнопку покупки билета при выделении строки маршрута
+        private void routeGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (routeGrid.SelectedRows.Count == 0)
+                buyTicketButton.Enabled = false;
+            else
+                buyTicketButton.Enabled = true;
+        }
+
+        // Отключает кнопку покупки билета если не выделена строка нужного маршрута
+        private void routeGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            buyTicketButton.Enabled = false;
         }
     }
 }

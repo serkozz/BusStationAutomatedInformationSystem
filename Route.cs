@@ -12,8 +12,11 @@ namespace BusStationAutomatedInformationSystem
         public string DestinationPointString { get; set; }
         public string DepartureTime { get; set; }
         public string DestinationTime { get; set; }
+        public float TripDistance { get; set; }
+        
+        
 
-        public Route(int id, int routeNumber, int departurePointId, int destinationPointId, string departureTime, string destinationTime)
+        public Route(int id, int routeNumber, int departurePointId, int destinationPointId, string departureTime, string destinationTime, float tripDistance)
         {
             Id = id;
             RouteNumber = routeNumber;
@@ -23,6 +26,7 @@ namespace BusStationAutomatedInformationSystem
             DestinationTime = destinationTime;
             DeparturePointString = this.GetDeparturePointNameById();
             DestinationPointString = this.GetDestinationPointNameById();
+            TripDistance = tripDistance;
         }
     }
 }

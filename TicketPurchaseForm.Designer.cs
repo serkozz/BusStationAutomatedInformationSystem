@@ -44,7 +44,7 @@
             this.label1.Font = new System.Drawing.Font("Tahoma", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(275, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(257, 41);
+            this.label1.Size = new System.Drawing.Size(250, 40);
             this.label1.TabIndex = 0;
             this.label1.Text = "Купить билет";
             // 
@@ -58,6 +58,7 @@
             this.buyTicketButton.TabIndex = 34;
             this.buyTicketButton.Text = "\r\n\r\n\r\nКупить";
             this.buyTicketButton.UseVisualStyleBackColor = true;
+            this.buyTicketButton.Click += new System.EventHandler(this.buyTicketButton_Click);
             // 
             // backButton
             // 
@@ -69,6 +70,7 @@
             this.backButton.TabIndex = 33;
             this.backButton.Text = "\r\n\r\n\r\nНазад";
             this.backButton.UseVisualStyleBackColor = true;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // label2
             // 
@@ -87,6 +89,7 @@
             this.Calendar.Location = new System.Drawing.Point(309, 109);
             this.Calendar.Name = "Calendar";
             this.Calendar.TabIndex = 37;
+            this.Calendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.Calendar_DateSelected);
             // 
             // label3
             // 
@@ -122,7 +125,6 @@
             this.Controls.Add(this.label1);
             this.Name = "TicketPurchaseForm";
             this.Text = "TicketPurchaseForm";
-            this.Load += new System.EventHandler(this.TicketPurchaseForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,6 +138,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.MonthCalendar Calendar;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label ticketPriceLabel;
+        public System.Windows.Forms.Label ticketPriceLabel;
     }
 }
