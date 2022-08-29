@@ -31,18 +31,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RouteForm));
             this.label1 = new System.Windows.Forms.Label();
             this.routeGrid = new System.Windows.Forms.DataGridView();
-            this.routeNumberTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.departurePointCityTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.destinationPointCityTextBox = new System.Windows.Forms.TextBox();
             this.findRouteButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
-            this.destinationPointStreetTextBox = new System.Windows.Forms.TextBox();
-            this.departurePointStreetTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.departurePointCityComboBox = new System.Windows.Forms.ComboBox();
+            this.destinatrionPointCityComboBox = new System.Windows.Forms.ComboBox();
+            this.destinatrionPointStreetComboBox = new System.Windows.Forms.ComboBox();
+            this.departurePointStreetComboBox = new System.Windows.Forms.ComboBox();
+            this.routeNumberComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.routeGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,14 +70,6 @@
             this.routeGrid.Size = new System.Drawing.Size(958, 480);
             this.routeGrid.TabIndex = 1;
             // 
-            // routeNumberTextBox
-            // 
-            this.routeNumberTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.routeNumberTextBox.Location = new System.Drawing.Point(155, 110);
-            this.routeNumberTextBox.Name = "routeNumberTextBox";
-            this.routeNumberTextBox.Size = new System.Drawing.Size(139, 35);
-            this.routeNumberTextBox.TabIndex = 2;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -98,14 +90,6 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Точка отправки: ";
             // 
-            // departurePointCityTextBox
-            // 
-            this.departurePointCityTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.departurePointCityTextBox.Location = new System.Drawing.Point(300, 153);
-            this.departurePointCityTextBox.Name = "departurePointCityTextBox";
-            this.departurePointCityTextBox.Size = new System.Drawing.Size(238, 35);
-            this.departurePointCityTextBox.TabIndex = 4;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -116,14 +100,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Точка прибытия: ";
             // 
-            // destinationPointCityTextBox
-            // 
-            this.destinationPointCityTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.destinationPointCityTextBox.Location = new System.Drawing.Point(300, 194);
-            this.destinationPointCityTextBox.Name = "destinationPointCityTextBox";
-            this.destinationPointCityTextBox.Size = new System.Drawing.Size(238, 35);
-            this.destinationPointCityTextBox.TabIndex = 6;
-            // 
             // findRouteButton
             // 
             this.findRouteButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -131,7 +107,7 @@
             this.findRouteButton.Location = new System.Drawing.Point(788, 135);
             this.findRouteButton.Name = "findRouteButton";
             this.findRouteButton.Size = new System.Drawing.Size(180, 120);
-            this.findRouteButton.TabIndex = 8;
+            this.findRouteButton.TabIndex = 10;
             this.findRouteButton.Text = "\r\n\r\n\r\nПоиск";
             this.findRouteButton.UseVisualStyleBackColor = true;
             // 
@@ -145,22 +121,7 @@
             this.backButton.TabIndex = 9;
             this.backButton.Text = "\r\n\r\n\r\nНа главную";
             this.backButton.UseVisualStyleBackColor = true;
-            // 
-            // destinationPointStreetTextBox
-            // 
-            this.destinationPointStreetTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.destinationPointStreetTextBox.Location = new System.Drawing.Point(544, 194);
-            this.destinationPointStreetTextBox.Name = "destinationPointStreetTextBox";
-            this.destinationPointStreetTextBox.Size = new System.Drawing.Size(238, 35);
-            this.destinationPointStreetTextBox.TabIndex = 11;
-            // 
-            // departurePointStreetTextBox
-            // 
-            this.departurePointStreetTextBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.departurePointStreetTextBox.Location = new System.Drawing.Point(544, 153);
-            this.departurePointStreetTextBox.Name = "departurePointStreetTextBox";
-            this.departurePointStreetTextBox.Size = new System.Drawing.Size(238, 35);
-            this.departurePointStreetTextBox.TabIndex = 10;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // label5
             // 
@@ -182,23 +143,68 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "Улица";
             // 
+            // departurePointCityComboBox
+            // 
+            this.departurePointCityComboBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.departurePointCityComboBox.FormattingEnabled = true;
+            this.departurePointCityComboBox.Location = new System.Drawing.Point(300, 152);
+            this.departurePointCityComboBox.Name = "departurePointCityComboBox";
+            this.departurePointCityComboBox.Size = new System.Drawing.Size(238, 35);
+            this.departurePointCityComboBox.TabIndex = 15;
+            // 
+            // destinatrionPointCityComboBox
+            // 
+            this.destinatrionPointCityComboBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.destinatrionPointCityComboBox.FormattingEnabled = true;
+            this.destinatrionPointCityComboBox.Location = new System.Drawing.Point(300, 193);
+            this.destinatrionPointCityComboBox.Name = "destinatrionPointCityComboBox";
+            this.destinatrionPointCityComboBox.Size = new System.Drawing.Size(238, 35);
+            this.destinatrionPointCityComboBox.TabIndex = 16;
+            // 
+            // destinatrionPointStreetComboBox
+            // 
+            this.destinatrionPointStreetComboBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.destinatrionPointStreetComboBox.FormattingEnabled = true;
+            this.destinatrionPointStreetComboBox.Location = new System.Drawing.Point(544, 193);
+            this.destinatrionPointStreetComboBox.Name = "destinatrionPointStreetComboBox";
+            this.destinatrionPointStreetComboBox.Size = new System.Drawing.Size(238, 35);
+            this.destinatrionPointStreetComboBox.TabIndex = 18;
+            // 
+            // departurePointStreetComboBox
+            // 
+            this.departurePointStreetComboBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.departurePointStreetComboBox.FormattingEnabled = true;
+            this.departurePointStreetComboBox.Location = new System.Drawing.Point(544, 152);
+            this.departurePointStreetComboBox.Name = "departurePointStreetComboBox";
+            this.departurePointStreetComboBox.Size = new System.Drawing.Size(238, 35);
+            this.departurePointStreetComboBox.TabIndex = 17;
+            // 
+            // routeNumberComboBox
+            // 
+            this.routeNumberComboBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.routeNumberComboBox.FormattingEnabled = true;
+            this.routeNumberComboBox.Location = new System.Drawing.Point(138, 109);
+            this.routeNumberComboBox.Name = "routeNumberComboBox";
+            this.routeNumberComboBox.Size = new System.Drawing.Size(156, 35);
+            this.routeNumberComboBox.TabIndex = 14;
+            // 
             // RouteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 753);
+            this.Controls.Add(this.routeNumberComboBox);
+            this.Controls.Add(this.destinatrionPointStreetComboBox);
+            this.Controls.Add(this.departurePointStreetComboBox);
+            this.Controls.Add(this.destinatrionPointCityComboBox);
+            this.Controls.Add(this.departurePointCityComboBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.destinationPointStreetTextBox);
-            this.Controls.Add(this.departurePointStreetTextBox);
             this.Controls.Add(this.backButton);
             this.Controls.Add(this.findRouteButton);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.destinationPointCityTextBox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.departurePointCityTextBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.routeNumberTextBox);
             this.Controls.Add(this.routeGrid);
             this.Controls.Add(this.label1);
             this.Name = "RouteForm";
@@ -213,17 +219,17 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView routeGrid;
-        private System.Windows.Forms.TextBox routeNumberTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox departurePointCityTextBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox destinationPointCityTextBox;
         private System.Windows.Forms.Button findRouteButton;
         private System.Windows.Forms.Button backButton;
-        private System.Windows.Forms.TextBox destinationPointStreetTextBox;
-        private System.Windows.Forms.TextBox departurePointStreetTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox departurePointCityComboBox;
+        private System.Windows.Forms.ComboBox destinatrionPointCityComboBox;
+        private System.Windows.Forms.ComboBox destinatrionPointStreetComboBox;
+        private System.Windows.Forms.ComboBox departurePointStreetComboBox;
+        private System.Windows.Forms.ComboBox routeNumberComboBox;
     }
 }

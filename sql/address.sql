@@ -6,7 +6,8 @@ create table if not exists address
     house INTEGER
 );
 
---DELETE FROM address WHERE id > 0;
---insert into address (city, street, house) values ('Самара', 'Победа', 17);
+--DELETE FROM address where id = 4;
+--insert into address (id, city, street, house) values (4, 'Самара', 'Гагарина', 17);
 --TRUNCATE address CASCADE;
 select * from address;
+SELECT (city, street) from address where id = 5;

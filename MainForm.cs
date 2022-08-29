@@ -1,12 +1,6 @@
-﻿using Npgsql;
+﻿using System.Drawing;
+using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BusStationAutomatedInformationSystem
@@ -15,6 +9,7 @@ namespace BusStationAutomatedInformationSystem
     {
         private User _user;
         public Profile Profile { get; private set; }
+
         public MainForm(User user, Profile profile)
         {
             _user = user;
@@ -33,6 +28,7 @@ namespace BusStationAutomatedInformationSystem
         private void adminPanelButton_Click(object sender, EventArgs e)
         {
             AdminPermissionForm adminPermissionForm = new AdminPermissionForm(this);
+            adminPermissionForm.Location = this.Location;
             adminPermissionForm.Show();
             this.Hide();
         }
@@ -49,7 +45,13 @@ namespace BusStationAutomatedInformationSystem
 
         private void routeButton_Click(object sender, EventArgs e)
         {
-            RouteForm routeForm = new RouteForm(this, this.Profile);
+            // RouteForm routeForm = new RouteForm(this, this.Profile);
+            RouteFormNew routeFormNew = new RouteFormNew(this, this.Profile);
+            //routeForm.Location = this.Location;
+            //routeForm.Show();
+            routeFormNew.Location = this.Location;
+            routeFormNew.Show();
+            this.Hide();
         }
     }
 }

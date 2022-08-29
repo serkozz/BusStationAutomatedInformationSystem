@@ -203,4 +203,82 @@ namespace BusStationAutomatedInformationSystem
             }
         }
     }
+
+    public static class RouteExtensions
+    {
+        public static string GetDeparturePointNameById(this Route route)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"select (city,street,house) from address WHERE id = {route.DeparturePointId}";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                object result = _cmd.ExecuteScalar();
+                object[] resultArray = result as object[];
+                connection.Close();
+
+                if (resultArray != null)
+                    return @$"{resultArray[0].ToString()} {resultArray[1].ToString()} {resultArray[2].ToString()}";
+                else
+                    return @$"Неопределено";
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось получить название точки отправления по Id!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return "Ошибка";  
+            }
+        }
+
+        public static string GetDestinationPointNameById(this Route route)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"select (city,street,house) from address WHERE id = {route.DestinationPointId}";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                object result = _cmd.ExecuteScalar();
+                object[] resultArray = result as object[];
+                connection.Close();
+
+                if (resultArray != null)
+                    return @$"{resultArray[0].ToString()} {resultArray[1].ToString()} {resultArray[2].ToString()}";
+                else
+                    return @$"Неопределено";
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось получить название точки отправления по Id!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return "Ошибка";  
+            }
+        }
+
+        public static string GetTravelDistanceById(this Route route)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"select (city,street,house) from address WHERE id = {route.DestinationPointId}";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                object result = _cmd.ExecuteScalar();
+                object[] resultArray = result as object[];
+                connection.Close();
+
+                if (resultArray != null)
+                    return @$"{resultArray[0].ToString()} {resultArray[1].ToString()} {resultArray[2].ToString()}";
+                else
+                    return @$"Неопределено";
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось получить название точки отправления по Id!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return "Ошибка";  
+            }
+        }
+    }
 }
