@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
 using Npgsql;
@@ -38,13 +39,9 @@ namespace BusStationAutomatedInformationSystem
                 connection.Close();
 
                 if (result != null) // Найден дубликат, ничего не добавляем, обновляем уже существующий экземпляр
-                {
                     return result.ToString();
-                }
                 else
-                {
                     return string.Empty;
-                }
             }
             catch (System.Exception ex)
             {
@@ -232,6 +229,45 @@ namespace BusStationAutomatedInformationSystem
 
     public static class RouteExtensions
     {
+        public static List<object> GetRouteByID(this Route route, int id)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"select * from route WHERE id = {id}";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                NpgsqlDataReader reader = _cmd.ExecuteReader();
+                List<object> returned = new List<object>();
+                
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read())
+                    {
+                        returned.Add(Int32.Parse(reader.GetValue(0).ToString()));
+                        returned.Add(Int32.Parse(reader.GetValue(1).ToString()));
+                        returned.Add(Int32.Parse(reader.GetValue(2).ToString()));
+                        returned.Add(Int32.Parse(reader.GetValue(3).ToString()));
+                        returned.Add(reader.GetValue(4).ToString());
+                        returned.Add(reader.GetValue(5).ToString());
+                        returned.Add(Single.Parse(reader.GetValue(6).ToString()));
+                    }
+                    return returned;
+                }
+                else
+                {
+                    connection.Close();
+                    return returned;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось получить маршрут по Id!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return null;  
+            }
+        }
+
         public static string GetDeparturePointNameById(this Route route)
         {
             try
@@ -333,5 +369,26 @@ namespace BusStationAutomatedInformationSystem
                 return -1;  
             }
             }
+    }
+
+    public static class User_Trip_History_Utility
+    {
+        public static void CreateNewRecordForProfile(Profile profile, Route route, DateTime date)
+        {
+            try
+            {
+                NpgsqlConnection _connection = new NpgsqlConnection(Constants._connectionString);
+                _connection.Open();
+                string cmdText = @$"insert into user_trip_history (profile_id,route_id,trip_date) values ({profile.Id}, {route.Id}, '{date.Year.ToString()}-{date.Month.ToString()}-{date.Day.ToString()}');";
+                var _cmd = new NpgsqlCommand(cmdText, _connection);
+                var result = _cmd.ExecuteScalar();
+                _connection.Close();
+
+            }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
         }
+    }
 }

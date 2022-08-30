@@ -1,12 +1,5 @@
-﻿using System.Globalization;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BusStationAutomatedInformationSystem
@@ -17,9 +10,7 @@ namespace BusStationAutomatedInformationSystem
         public RouteFormNew RouteForm { get; }
         private float rublesPerKilometer = 0f;
         private float tripPrice = 0f;
-        private DateTime selectedDate = DateTime.Today;
-        private bool isTicketAlreadyBought = false;
-
+        private DateTime selectedDate = DateTime.MinValue;
         System.Globalization.NumberStyles style = System.Globalization.NumberStyles.AllowDecimalPoint;
         System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.CreateSpecificCulture("en-GB");
 
@@ -46,9 +37,17 @@ namespace BusStationAutomatedInformationSystem
 
         private void buyTicketButton_Click(object sender, EventArgs e)
         {
+            // Чтобы можно было покупать билеты на сегодняшние маршруты, и при этом нельзя было покупать их на задние дни
+            DateTime selectedRouteDateTime = selectedDate.Add(TimeSpan.Parse(RouteForm.SelectedRoute.DepartureTime));
+
+            if (selectedDate != DateTime.MinValue && selectedRouteDateTime.Subtract(DateTime.Now) > TimeSpan.Zero)
+            {
             Ticket ticket = new Ticket(Profile.Id, RouteForm.SelectedRoute.Id, selectedDate, tripPrice);
-            isTicketAlreadyBought = true;
+            User_Trip_History_Utility.CreateNewRecordForProfile(Profile, RouteForm.SelectedRoute, selectedDate);
             buyTicketButton.Enabled = false;
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("Выберите корректную дату поездки!!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void Calendar_DateSelected(object sender, DateRangeEventArgs e)

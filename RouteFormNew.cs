@@ -100,7 +100,6 @@ namespace BusStationAutomatedInformationSystem
 
             routeDataSet.Tables.Add(filteredDataTable);
 
-
             foreach (var route in RoutesList)
             {
                 routeDataTable.Rows.Add(null, route.RouteNumber, route.DeparturePointString,
@@ -131,7 +130,6 @@ namespace BusStationAutomatedInformationSystem
                 int argumentsNumber = 0;
                 
                 Int32.TryParse(routeNumberTextBox.Text, out parsedNumber);
-
 
                 if (parsedNumber != 0)
                 {

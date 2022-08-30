@@ -6,4 +6,6 @@ create table if not exists user_trip_history
     trip_date DATE
 );
 
+--insert into user_trip_history (profile_id,route_id,trip_date) values (20, 1, '2022-08-31');
+
 SELECT * FROM user_trip_history;
