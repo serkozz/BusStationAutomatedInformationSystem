@@ -43,11 +43,11 @@ namespace BusStationAutomatedInformationSystem
             if (selectedDate != DateTime.MinValue && selectedRouteDateTime.Subtract(DateTime.Now) > TimeSpan.Zero)
             {
             Ticket ticket = new Ticket(Profile.Id, RouteForm.SelectedRoute.Id, selectedDate, tripPrice);
-            User_Trip_History_Utility.CreateNewRecordForProfile(Profile, RouteForm.SelectedRoute, selectedDate);
             buyTicketButton.Enabled = false;
+            MessageBox.Show("Билет успешно приобретен!!!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
-                System.Windows.Forms.MessageBox.Show("Выберите корректную дату поездки!!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите корректную дату поездки!!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void Calendar_DateSelected(object sender, DateRangeEventArgs e)

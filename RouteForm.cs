@@ -9,7 +9,6 @@ namespace BusStationAutomatedInformationSystem
     {
         public MainForm MainForm { get; }
         public Profile Profile { get; }
-
         private List<int> route_numbers = new List<int>();
         private List<int> route_departure_points_id = new List<int>();
         private List<int> route_destination_points_id = new List<int>();

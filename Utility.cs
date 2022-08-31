@@ -268,6 +268,31 @@ namespace BusStationAutomatedInformationSystem
             }
         }
 
+        public static string GetDepartureTimeById(this Route route)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"select (city,street,house) from address WHERE id = {route.DeparturePointId}";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                object result = _cmd.ExecuteScalar();
+                object[] resultArray = result as object[];
+                connection.Close();
+
+                if (resultArray != null)
+                    return @$"{resultArray[0].ToString()} {resultArray[1].ToString()} {resultArray[2].ToString()}";
+                else
+                    return @$"Неопределено";
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось получить название точки отправления по Id!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return "Ошибка";  
+            }
+        }
+
         public static string GetDeparturePointNameById(this Route route)
         {
             try
@@ -369,26 +394,5 @@ namespace BusStationAutomatedInformationSystem
                 return -1;  
             }
             }
-    }
-
-    public static class User_Trip_History_Utility
-    {
-        public static void CreateNewRecordForProfile(Profile profile, Route route, DateTime date)
-        {
-            try
-            {
-                NpgsqlConnection _connection = new NpgsqlConnection(Constants._connectionString);
-                _connection.Open();
-                string cmdText = @$"insert into user_trip_history (profile_id,route_id,trip_date) values ({profile.Id}, {route.Id}, '{date.Year.ToString()}-{date.Month.ToString()}-{date.Day.ToString()}');";
-                var _cmd = new NpgsqlCommand(cmdText, _connection);
-                var result = _cmd.ExecuteScalar();
-                _connection.Close();
-
-            }
-            catch (System.Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-            }
-        }
     }
 }

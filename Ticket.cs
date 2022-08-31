@@ -20,5 +20,14 @@ namespace BusStationAutomatedInformationSystem
             Id = this.DropToDB();
         }
 
+        public Ticket(int id, int profileId, int routeId, DateTime tripDate, float price)
+        {
+            Id = id;
+            ProfileId = profileId;
+            RouteId = routeId;
+            TripDate = tripDate;
+            Price = price;
+        }
+
     }
 }
