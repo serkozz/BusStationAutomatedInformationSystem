@@ -141,8 +141,7 @@ namespace BusStationAutomatedInformationSystem
             tripHistoryGrid.Columns[2].Width = 315;
             tripHistoryGrid.Columns[3].Width = 154;
             tripHistoryGrid.Columns[4].Width = 153;
-            tripHistoryGrid.Columns[5].Width = 133;
-            tripHistoryGrid.Columns[6].Width = 93;
+            tripHistoryGrid.Columns[5].Width = 153;
         }
         private void backButton_Click(object sender, EventArgs e)
         {
