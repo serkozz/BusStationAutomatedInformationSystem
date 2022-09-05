@@ -94,7 +94,6 @@ namespace BusStationAutomatedInformationSystem
             DataColumn destinationPointName = new DataColumn("Точка_прибытия", Type.GetType("System.String"));
             DataColumn departureDate = new DataColumn("Дата_отправления", Type.GetType("System.String"));
             DataColumn departureTime = new DataColumn("Время_отправления", Type.GetType("System.String"));
-            DataColumn destinationTime = new DataColumn("Время_прибытия", Type.GetType("System.String"));
             DataColumn price = new DataColumn("Цена", Type.GetType("System.Single"));
 
             userTripHistoryDataTable.Columns.Add(routeNumber);
@@ -102,7 +101,6 @@ namespace BusStationAutomatedInformationSystem
             userTripHistoryDataTable.Columns.Add(destinationPointName);
             userTripHistoryDataTable.Columns.Add(departureDate);
             userTripHistoryDataTable.Columns.Add(departureTime);
-            userTripHistoryDataTable.Columns.Add(destinationTime);
             userTripHistoryDataTable.Columns.Add(price);
 
             // определяем первичный ключ таблицы
@@ -121,7 +119,7 @@ namespace BusStationAutomatedInformationSystem
                 userTripHistoryDataTable.Rows.Add(route.RouteNumber, route.DeparturePointString,
                     route.DestinationPointString,
                     @$"{userTrip.TripDate.Day.ToString()}-{userTrip.TripDate.Month.ToString()}-{userTrip.TripDate.Year.ToString()}",
-                    route.DepartureTime, route.DestinationTime, userTrip.Price.ToString());
+                    route.DepartureTime, userTrip.Price.ToString());
             }
 
             foreach (var userTrip in UserPastTripList)
@@ -130,7 +128,7 @@ namespace BusStationAutomatedInformationSystem
                 userPastTripHistoryDataTable.Rows.Add(route.RouteNumber, route.DeparturePointString,
                     route.DestinationPointString,
                     @$"{userTrip.TripDate.Day.ToString()}-{userTrip.TripDate.Month.ToString()}-{userTrip.TripDate.Year.ToString()}",
-                    route.DepartureTime, route.DestinationTime, userTrip.Price.ToString());
+                    route.DepartureTime, userTrip.Price.ToString());
             }
 
             tripHistoryGrid.DataSource = userTripHistoryDataSet.Tables["user_trip_history"];

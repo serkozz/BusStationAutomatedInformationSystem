@@ -12,17 +12,15 @@ namespace BusStationAutomatedInformationSystem
         public int DestinationPointId { get; set; }
         public string DestinationPointString { get; set; }
         public string DepartureTime { get; set; }
-        public string DestinationTime { get; set; }
         public float TripDistance { get; set; }
 
-        public Route(int id, int routeNumber, int departurePointId, int destinationPointId, string departureTime, string destinationTime, float tripDistance)
+        public Route(int id, int routeNumber, int departurePointId, int destinationPointId, string departureTime, float tripDistance)
         {
             Id = id;
             RouteNumber = routeNumber;
             DeparturePointId = departurePointId;
             DestinationPointId = destinationPointId;
             DepartureTime = departureTime;
-            DestinationTime = destinationTime;
             DeparturePointString = this.GetDeparturePointNameById();
             DestinationPointString = this.GetDestinationPointNameById();
             TripDistance = tripDistance;
@@ -36,10 +34,9 @@ namespace BusStationAutomatedInformationSystem
             DeparturePointId = (int)tempRoute[2];
             DestinationPointId = (int)tempRoute[3];
             DepartureTime = tempRoute[4].ToString();
-            DestinationTime = tempRoute[5].ToString();
             DeparturePointString = this.GetDeparturePointNameById();
             DestinationPointString = this.GetDestinationPointNameById();
-            TripDistance = (float)tempRoute[6];
+            TripDistance = (float)tempRoute[5];
         }
     }
 }

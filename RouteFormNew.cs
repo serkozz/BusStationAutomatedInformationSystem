@@ -52,8 +52,7 @@ namespace BusStationAutomatedInformationSystem
                                     Int32.Parse(reader.GetValue(1).ToString()),
                                     Int32.Parse(reader.GetValue(2).ToString()),
                                     Int32.Parse(reader.GetValue(3).ToString()),
-                                    reader.GetValue(4).ToString(),
-                                    reader.GetValue(5).ToString(), float.Parse(reader.GetValue(6).ToString())));
+                                    reader.GetValue(4).ToString(), float.Parse(reader.GetValue(5).ToString())));
                     }
                 }
                 _connection.Close();
@@ -74,22 +73,20 @@ namespace BusStationAutomatedInformationSystem
             DataColumn idColumn = new DataColumn("Id", Type.GetType("System.Int32"));
             idColumn.Unique = true; // столбец будет иметь уникальное значение
             idColumn.AllowDBNull = false; // не может принимать null
-            idColumn.AutoIncrement = true; // будет автоинкрементироваться
-            idColumn.AutoIncrementSeed = 1; // начальное значение
-            idColumn.AutoIncrementStep = 1; // приращении при добавлении новой строки
+            // idColumn.AutoIncrement = true; // будет автоинкрементироваться
+            // idColumn.AutoIncrementSeed = 1; // начальное значение
+            // idColumn.AutoIncrementStep = 1; // приращении при добавлении новой строки
 
             DataColumn routeNumber = new DataColumn("Номер_маршрута", Type.GetType("System.Int32"));
             DataColumn departurePointName = new DataColumn("Точка_отправления", Type.GetType("System.String"));
             DataColumn destinationPointName = new DataColumn("Точка_прибытия", Type.GetType("System.String"));
             DataColumn departureTime = new DataColumn("Время_отправления", Type.GetType("System.String"));
-            DataColumn destinationTime = new DataColumn("Время_прибытия", Type.GetType("System.String"));
 
             routeDataTable.Columns.Add(idColumn);
             routeDataTable.Columns.Add(routeNumber);
             routeDataTable.Columns.Add(departurePointName);
             routeDataTable.Columns.Add(destinationPointName);
             routeDataTable.Columns.Add(departureTime);
-            routeDataTable.Columns.Add(destinationTime);
 
             // определяем первичный ключ таблицы
             routeDataTable.PrimaryKey = new DataColumn[] { routeDataTable.Columns["Id"] };
@@ -102,8 +99,8 @@ namespace BusStationAutomatedInformationSystem
 
             foreach (var route in RoutesList)
             {
-                routeDataTable.Rows.Add(null, route.RouteNumber, route.DeparturePointString,
-                    route.DestinationPointString, route.DepartureTime, route.DestinationTime);
+                routeDataTable.Rows.Add(route.Id, route.RouteNumber, route.DeparturePointString,
+                    route.DestinationPointString, route.DepartureTime);
             }
 
             routeGrid.DataSource = routeDataSet.Tables["route"];
@@ -112,10 +109,9 @@ namespace BusStationAutomatedInformationSystem
             // DataGrid width = 1158
             routeGrid.Columns[0].Width = 100;
             routeGrid.Columns[1].Width = 139;
-            routeGrid.Columns[2].Width = 289;
-            routeGrid.Columns[3].Width = 289;
-            routeGrid.Columns[4].Width = 154;
-            routeGrid.Columns[5].Width = 133;
+            routeGrid.Columns[2].Width = 300;
+            routeGrid.Columns[3].Width = 300;
+            routeGrid.Columns[4].Width = 155;
         }
 
         private void findRouteButton_Click(object sender, EventArgs e)
@@ -167,7 +163,7 @@ namespace BusStationAutomatedInformationSystem
                 {
                     filteredDataTable.Rows.Add((int)result.ItemArray[0], (int)result.ItemArray[1],
                     result.ItemArray[2].ToString(), result.ItemArray[3].ToString(),
-                    result.ItemArray[4].ToString(), result.ItemArray[5].ToString());
+                    result.ItemArray[4].ToString());
                 }
 
                 routeGrid.DataSource = filteredDataTable;

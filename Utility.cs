@@ -250,8 +250,7 @@ namespace BusStationAutomatedInformationSystem
                         returned.Add(Int32.Parse(reader.GetValue(2).ToString()));
                         returned.Add(Int32.Parse(reader.GetValue(3).ToString()));
                         returned.Add(reader.GetValue(4).ToString());
-                        returned.Add(reader.GetValue(5).ToString());
-                        returned.Add(Single.Parse(reader.GetValue(6).ToString()));
+                        returned.Add(Single.Parse(reader.GetValue(5).ToString()));
                     }
                     return returned;
                 }
@@ -393,6 +392,6 @@ namespace BusStationAutomatedInformationSystem
                 System.Windows.Forms.MessageBox.Show("Не удалось обновить данные о билете!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 return -1;  
             }
-            }
+        }
     }
 }

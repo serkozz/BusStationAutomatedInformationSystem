@@ -7,7 +7,6 @@ create table if not exists passport
     number integer
 );
 
---TRUNCATE passport CASCADE;
 --DELETE FROM passport WHERE id > 0;
 --insert into passport (series, number) values (3615, 146753);
 --UPDATE passport SET series = 3000, number = 192421 where id = 1 RETURNING id;
