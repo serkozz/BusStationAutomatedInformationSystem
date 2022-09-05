@@ -1,5 +1,3 @@
-using Npgsql;
-
 namespace BusStationAutomatedInformationSystem
 {
     public class Address

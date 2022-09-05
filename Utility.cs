@@ -393,5 +393,29 @@ namespace BusStationAutomatedInformationSystem
                 return -1;  
             }
         }
+
+        public static bool RemoveFromDB(this Ticket ticket)
+        {
+            try
+            {
+                //GET
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+                connection.Open();
+                string _sql = @$"DELETE FROM ticket WHERE id = {ticket.Id} RETURNING id";
+                var _cmd = new NpgsqlCommand(_sql, connection);
+                object result = _cmd.ExecuteScalar();
+                connection.Close();
+
+                if (result != null)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Не удалось обновить данные о билете!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;  
+            }
+        }
     }
 }

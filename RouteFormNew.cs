@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using Npgsql;
 
@@ -130,7 +129,7 @@ namespace BusStationAutomatedInformationSystem
                 if (parsedNumber != 0)
                 {
                     if (argumentsNumber != 0)
-                        selectCommand += @$" OR Номер_маршрута = {parsedNumber}";
+                        selectCommand += @$" AND Номер_маршрута = {parsedNumber}";
                     else
                         selectCommand +=@$"Номер_маршрута = {parsedNumber}";
 
@@ -140,20 +139,20 @@ namespace BusStationAutomatedInformationSystem
                 if (departurePointTextBox.TextLength != 0)
                 {
                     if (argumentsNumber != 0)
-                        selectCommand += @$" OR Точка_отправления LIKE '%{departurePointTextBox.Text}%'";
+                        selectCommand += @$" AND Точка_отправления LIKE '%{departurePointTextBox.Text}%'";
                     else
                         selectCommand += @$"Точка_отправления LIKE '%{departurePointTextBox.Text}%'";
-                        
+
                     argumentsNumber++;
                 }
 
                 if (destinationPointTextBox.TextLength != 0)
                 {
                     if (argumentsNumber != 0)
-                        selectCommand += @$" OR Точка_прибытия LIKE '%{destinationPointTextBox.Text}%'";
+                        selectCommand += @$" AND Точка_прибытия LIKE '%{destinationPointTextBox.Text}%'";
                     else
                         selectCommand += @$"Точка_прибытия LIKE '%{destinationPointTextBox.Text}%'";
-                        
+
                     argumentsNumber++;
                 }
 

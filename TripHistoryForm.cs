@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Npgsql;
 
@@ -18,6 +14,7 @@ namespace BusStationAutomatedInformationSystem
         public bool IsPastTripsDisplayed { get; private set; } = true;
         public List<Ticket> UserTripList { get; private set; } // Все маршруты данного пользователя
         public List<Ticket> UserPastTripList { get; private set; } // Только завершенные маршруты пользователя
+        private Ticket SelectedTicket;
         private DataSet userTripHistoryDataSet = new DataSet("user_trip_history");
         private DataTable userTripHistoryDataTable = new DataTable("user_trip_history");
         private DataTable userPastTripHistoryDataTable = new DataTable("user_past_trip_history");
@@ -29,6 +26,7 @@ namespace BusStationAutomatedInformationSystem
             UserTripList = new List<Ticket>();
             UserPastTripList = new List<Ticket>();
             InitializeComponent();
+            sellTicketButton.Enabled = false;
             GetProfileRoutesInfoFromDB();
             CreateDataGridViewFromTripsList();
         }
@@ -85,9 +83,9 @@ namespace BusStationAutomatedInformationSystem
             DataColumn idColumn = new DataColumn("Id", Type.GetType("System.Int32"));
             idColumn.Unique = true; // столбец будет иметь уникальное значение
             idColumn.AllowDBNull = false; // не может принимать null
-            idColumn.AutoIncrement = true; // будет автоинкрементироваться
-            idColumn.AutoIncrementSeed = 1; // начальное значение
-            idColumn.AutoIncrementStep = 1; // приращении при добавлении новой строки
+            // idColumn.AutoIncrement = true; // будет автоинкрементироваться
+            // idColumn.AutoIncrementSeed = 1; // начальное значение
+            // idColumn.AutoIncrementStep = 1; // приращении при добавлении новой строки
 
             DataColumn routeNumber = new DataColumn("Номер_маршрута", Type.GetType("System.Int32"));
             DataColumn departurePointName = new DataColumn("Точка_отправления", Type.GetType("System.String"));
@@ -96,6 +94,7 @@ namespace BusStationAutomatedInformationSystem
             DataColumn departureTime = new DataColumn("Время_отправления", Type.GetType("System.String"));
             DataColumn price = new DataColumn("Цена", Type.GetType("System.Single"));
 
+            userTripHistoryDataTable.Columns.Add(idColumn);
             userTripHistoryDataTable.Columns.Add(routeNumber);
             userTripHistoryDataTable.Columns.Add(departurePointName);
             userTripHistoryDataTable.Columns.Add(destinationPointName);
@@ -116,7 +115,7 @@ namespace BusStationAutomatedInformationSystem
             foreach (var userTrip in UserTripList)
             {
                 Route route = new Route(userTrip.RouteId);
-                userTripHistoryDataTable.Rows.Add(route.RouteNumber, route.DeparturePointString,
+                userTripHistoryDataTable.Rows.Add(userTrip.Id, route.RouteNumber, route.DeparturePointString,
                     route.DestinationPointString,
                     @$"{userTrip.TripDate.Day.ToString()}-{userTrip.TripDate.Month.ToString()}-{userTrip.TripDate.Year.ToString()}",
                     route.DepartureTime, userTrip.Price.ToString());
@@ -125,7 +124,7 @@ namespace BusStationAutomatedInformationSystem
             foreach (var userTrip in UserPastTripList)
             {
                 Route route = new Route(userTrip.RouteId);
-                userPastTripHistoryDataTable.Rows.Add(route.RouteNumber, route.DeparturePointString,
+                userPastTripHistoryDataTable.Rows.Add(userTrip.Id, route.RouteNumber, route.DeparturePointString,
                     route.DestinationPointString,
                     @$"{userTrip.TripDate.Day.ToString()}-{userTrip.TripDate.Month.ToString()}-{userTrip.TripDate.Year.ToString()}",
                     route.DepartureTime, userTrip.Price.ToString());
@@ -136,12 +135,13 @@ namespace BusStationAutomatedInformationSystem
             
             string width = tripHistoryGrid.Width.ToString();
 
-            tripHistoryGrid.Columns[0].Width = 139;
-            tripHistoryGrid.Columns[1].Width = 315;
+            tripHistoryGrid.Columns[0].Width = 75;
+            tripHistoryGrid.Columns[1].Width = 139;
             tripHistoryGrid.Columns[2].Width = 315;
-            tripHistoryGrid.Columns[3].Width = 154;
-            tripHistoryGrid.Columns[4].Width = 153;
+            tripHistoryGrid.Columns[3].Width = 315;
+            tripHistoryGrid.Columns[4].Width = 154;
             tripHistoryGrid.Columns[5].Width = 153;
+            tripHistoryGrid.Columns[6].Width = 153;
         }
         private void backButton_Click(object sender, EventArgs e)
         {
@@ -155,6 +155,28 @@ namespace BusStationAutomatedInformationSystem
                 tripHistoryGrid.DataSource = userTripHistoryDataSet.Tables["user_past_trip_history"];
             else
                 tripHistoryGrid.DataSource = userTripHistoryDataSet.Tables["user_trip_history"];
+        }
+
+        private void sellTicketButton_Click(object sender, EventArgs e)
+        {
+            DataGridViewSelectedRowCollection selectedTicket = tripHistoryGrid.SelectedRows;
+            SelectedTicket = UserTripList.Except(UserPastTripList).ToList().Find(x => x.Id == Int32.Parse(selectedTicket[0].Cells[0].Value.ToString()));
+
+            if (SelectedTicket.RemoveFromDB())
+                MessageBox.Show("Билет успешно возвращен !!!", "Успех!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void tripHistoryGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            sellTicketButton.Enabled = false;
+        }
+
+        private void tripHistoryGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (tripHistoryGrid.SelectedRows.Count == 0)
+                sellTicketButton.Enabled = false;
+            else
+                sellTicketButton.Enabled = true;
         }
     }
 }

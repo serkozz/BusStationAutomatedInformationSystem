@@ -33,6 +33,7 @@
             this.backButton = new System.Windows.Forms.Button();
             this.tripHistoryGrid = new System.Windows.Forms.DataGridView();
             this.displayPastTripsCheckBox = new System.Windows.Forms.CheckBox();
+            this.sellTicketButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tripHistoryGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,6 +70,8 @@
             this.tripHistoryGrid.RowTemplate.Height = 29;
             this.tripHistoryGrid.Size = new System.Drawing.Size(1358, 563);
             this.tripHistoryGrid.TabIndex = 37;
+            this.tripHistoryGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tripHistoryGrid_CellClick);
+            this.tripHistoryGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.tripHistoryGrid_RowHeaderMouseClick);
             // 
             // displayPastTripsCheckBox
             // 
@@ -82,11 +85,24 @@
             this.displayPastTripsCheckBox.UseVisualStyleBackColor = true;
             this.displayPastTripsCheckBox.CheckedChanged += new System.EventHandler(this.displayPastTripsCheckBox_CheckedChanged);
             // 
+            // sellTicketButton
+            // 
+            this.sellTicketButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.sellTicketButton.Image = ((System.Drawing.Image)(resources.GetObject("sellTicketButton.Image")));
+            this.sellTicketButton.Location = new System.Drawing.Point(1004, 52);
+            this.sellTicketButton.Name = "sellTicketButton";
+            this.sellTicketButton.Size = new System.Drawing.Size(180, 120);
+            this.sellTicketButton.TabIndex = 39;
+            this.sellTicketButton.Text = "\r\n\r\n\r\nСдать билет";
+            this.sellTicketButton.UseVisualStyleBackColor = true;
+            this.sellTicketButton.Click += new System.EventHandler(this.sellTicketButton_Click);
+            // 
             // TripHistoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1382, 753);
+            this.Controls.Add(this.sellTicketButton);
             this.Controls.Add(this.displayPastTripsCheckBox);
             this.Controls.Add(this.tripHistoryGrid);
             this.Controls.Add(this.backButton);
@@ -105,5 +121,6 @@
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.DataGridView tripHistoryGrid;
         private System.Windows.Forms.CheckBox displayPastTripsCheckBox;
+        private System.Windows.Forms.Button sellTicketButton;
     }
 }

@@ -34,6 +34,7 @@
             this.backButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.voyageManagementButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,7 +42,7 @@
             // 
             this.tableComboBox.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.tableComboBox.FormattingEnabled = true;
-            this.tableComboBox.Location = new System.Drawing.Point(232, 68);
+            this.tableComboBox.Location = new System.Drawing.Point(146, 23);
             this.tableComboBox.Name = "tableComboBox";
             this.tableComboBox.Size = new System.Drawing.Size(296, 36);
             this.tableComboBox.TabIndex = 1;
@@ -64,9 +65,9 @@
             // 
             this.backButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.backButton.Image = ((System.Drawing.Image)(resources.GetObject("backButton.Image")));
-            this.backButton.Location = new System.Drawing.Point(791, 23);
+            this.backButton.Location = new System.Drawing.Point(791, 12);
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(173, 123);
+            this.backButton.Size = new System.Drawing.Size(173, 177);
             this.backButton.TabIndex = 25;
             this.backButton.Text = "\r\n\r\n\r\nНа главную";
             this.backButton.UseVisualStyleBackColor = true;
@@ -76,7 +77,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(98, 71);
+            this.label1.Location = new System.Drawing.Point(12, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 28);
             this.label1.TabIndex = 26;
@@ -86,17 +87,30 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(421, 161);
+            this.label2.Location = new System.Drawing.Point(12, 161);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(162, 28);
             this.label2.TabIndex = 27;
             this.label2.Text = "Содержание";
+            // 
+            // voyageManagementButton
+            // 
+            this.voyageManagementButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.voyageManagementButton.Image = ((System.Drawing.Image)(resources.GetObject("voyageManagementButton.Image")));
+            this.voyageManagementButton.Location = new System.Drawing.Point(612, 12);
+            this.voyageManagementButton.Name = "voyageManagementButton";
+            this.voyageManagementButton.Size = new System.Drawing.Size(173, 177);
+            this.voyageManagementButton.TabIndex = 28;
+            this.voyageManagementButton.Text = "\r\n\r\n\r\n\r\nНазначение рейсов";
+            this.voyageManagementButton.UseVisualStyleBackColor = true;
+            this.voyageManagementButton.Click += new System.EventHandler(this.voyageManagementButton_Click);
             // 
             // AdminPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(982, 753);
+            this.Controls.Add(this.voyageManagementButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.backButton);
@@ -118,5 +132,6 @@
         private System.Windows.Forms.Button backButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button voyageManagementButton;
     }
 }

@@ -1,6 +1,3 @@
-using System;
-using Npgsql;
-
 namespace BusStationAutomatedInformationSystem
 {
     public class Passport

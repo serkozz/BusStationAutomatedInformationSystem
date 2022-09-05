@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using Npgsql;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace BusStationAutomatedInformationSystem

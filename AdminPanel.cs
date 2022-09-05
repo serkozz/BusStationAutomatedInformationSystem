@@ -222,9 +222,14 @@ namespace BusStationAutomatedInformationSystem
             currentTable = new Table((string)tableComboBox.SelectedItem.ToString());
             LoadData();
         }
+
+        private void voyageManagementButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
-        public class Table
+    public class Table
     {
         public string TableName { get; }
         public int ColumnsCount { get; }
