@@ -83,9 +83,6 @@ namespace BusStationAutomatedInformationSystem
             DataColumn idColumn = new DataColumn("Id", Type.GetType("System.Int32"));
             idColumn.Unique = true; // столбец будет иметь уникальное значение
             idColumn.AllowDBNull = false; // не может принимать null
-            // idColumn.AutoIncrement = true; // будет автоинкрементироваться
-            // idColumn.AutoIncrementSeed = 1; // начальное значение
-            // idColumn.AutoIncrementStep = 1; // приращении при добавлении новой строки
 
             DataColumn routeNumber = new DataColumn("Номер_маршрута", Type.GetType("System.Int32"));
             DataColumn departurePointName = new DataColumn("Точка_отправления", Type.GetType("System.String"));
