@@ -8,16 +8,18 @@ namespace BusStationAutomatedInformationSystem
         public int Id { get; private set; }
         public int RouteId { get; private set; }
         public int BusId { get; private set; }
+        public Route Route { get; private set; }
         public List<Ticket> TicketsList { get; private set; }
         public int TicketsCount { get; private set; }
         public DateTime DepartureTime { get; private set; }
 
-        public Voyage(int id, Route route, int busId, int ticketsCount, DateTime departureTime)
+        public Voyage(int routeId, int busId, int ticketsCount, DateTime departureTime)
         {
-            RouteId = route.Id;
+            RouteId = routeId;
             BusId = busId;
+            Route = new Route(routeId);
             TicketsCount = ticketsCount;
-            DepartureTime = departureTime.Add(TimeSpan.Parse(route.DepartureTime));
+            DepartureTime = departureTime;
             Id = this.DropToDB();
         }
     }

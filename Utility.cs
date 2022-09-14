@@ -489,7 +489,7 @@ namespace BusStationAutomatedInformationSystem
 				//GET
 				NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
 				connection.Open();
-				string _sql = @$"insert into voyage (route_id,bus_id,tickets_count,departure_time) values ({voyage.RouteId}, {voyage.BusId}, {voyage.TicketsCount}, {voyage.DepartureTime}) RETURNING id";
+				string _sql = @$"insert into voyage (route_id,bus_id,tickets_count,departure_time) values ({voyage.RouteId}, {voyage.BusId}, {voyage.TicketsCount}, '{voyage.DepartureTime}') RETURNING id";
 				var _cmd = new NpgsqlCommand(_sql, connection);
 				object result = _cmd.ExecuteScalar();
 				connection.Close();
@@ -525,6 +525,25 @@ namespace BusStationAutomatedInformationSystem
 			{
 				System.Windows.Forms.MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 				return null;
+			}
+		}
+
+		public static int GetBusIdByNumberAndDriverName(int busNumber, string driverFullName)
+		{
+			try
+			{
+				NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+				connection.Open();
+				string[] fullNameSplitted = driverFullName.Split(' ', 3);
+				string _sql = $"SELECT bus.id FROM bus LEFT JOIN employee ON bus.driver_emloyee_id = employee.id LEFT JOIN profile ON employee.profile_id = profile.id WHERE bus.bus_number = {busNumber} AND profile.surname = '{fullNameSplitted[0]}' AND profile.name = '{fullNameSplitted[1]}' AND profile.midname = '{fullNameSplitted[2]}';";
+				var _cmd = new NpgsqlCommand(_sql, connection);
+				var res = _cmd.ExecuteScalar();
+				return (int)res;
+			}
+			catch (System.Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+				return -1;
 			}
 		}
 	}

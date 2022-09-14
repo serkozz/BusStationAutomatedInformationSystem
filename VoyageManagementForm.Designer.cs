@@ -135,6 +135,8 @@
             this.infoGrid.RowTemplate.Height = 29;
             this.infoGrid.Size = new System.Drawing.Size(936, 218);
             this.infoGrid.TabIndex = 37;
+            this.infoGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.infoGrid_CellContentClick);
+            this.infoGrid.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.infoGrid_RowHeaderMouseClick);
             // 
             // VoyageManagementForm
             // 

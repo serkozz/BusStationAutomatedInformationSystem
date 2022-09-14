@@ -6,3 +6,5 @@ create table if not exists employee
 );
 
 select * from employee;
+SELECT id FROM bus LEFT JOIN
+employee ON bus. = profile_id.id;

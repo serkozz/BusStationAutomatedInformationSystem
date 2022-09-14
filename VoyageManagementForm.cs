@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Linq;
+using System.Data;
 using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace BusStationAutomatedInformationSystem
 		public List<Route> SelectedDateRoutes { get; private set; } = new List<Route>();
 
 		public int BusNumber { get; private set; }
-		public string DriverName { get; private set; }
+		public string DriverFullName { get; private set; }
 		public string DeparturePointName { get; private set; }
 		public string DestinationPointName { get; private set; }
 		public int TicketsCount { get; private set; }
@@ -84,7 +85,7 @@ namespace BusStationAutomatedInformationSystem
             // определяем первичный ключ таблицы
             DataTable.PrimaryKey = new DataColumn[] { DataTable.Columns["Id"] };
 
-			DataTable.Rows.Add(null, BusNumber, DriverName, DeparturePointName, DestinationPointName, DepartureTime.ToString(), TicketsCount);
+			DataTable.Rows.Add(null, BusNumber, DriverFullName, DeparturePointName, DestinationPointName, DepartureTime.ToString(), TicketsCount);
 
             infoGrid.DataSource = DataSet.Tables["info"];            
 
@@ -100,7 +101,7 @@ namespace BusStationAutomatedInformationSystem
 		private void UpdateInfoGrid()
 		{
 			DataTable.Rows.Clear();
-			DataTable.Rows.Add(null, BusNumber, DriverName, DeparturePointName, DestinationPointName, DepartureTime.ToString(), TicketsCount);
+			DataTable.Rows.Add(null, BusNumber, DriverFullName, DeparturePointName, DestinationPointName, DepartureTime.ToString(), TicketsCount);
 			infoGrid.DataSource = DataSet.Tables["info"];
 		}
 
@@ -123,7 +124,18 @@ namespace BusStationAutomatedInformationSystem
 
         private void applyButton_Click(object sender, EventArgs e)
         {
-			//var res = new Voyage();
+			try
+			{
+			Route rt = SelectedDateRoutes.Find(x => x.RouteNumber == BusNumber);
+			Voyage voyage = new Voyage(rt.Id,
+				BusExtensions.GetBusIdByNumberAndDriverName(rt.RouteNumber, DriverFullName),
+				TicketsCount, DepartureTime);
+                MessageBox.Show("Автобус назначен на маршрут!!!", "Успех!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			catch (System.Exception ex)
+			{
+                MessageBox.Show($"Автобус не был назначен на маршрут!!! + {ex.Message}", "Неудача!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
         }
 
 		/// <summary>
@@ -132,9 +144,7 @@ namespace BusStationAutomatedInformationSystem
 		private void GetSelectedDateRoutesBySelectedDateTickets()
 		{
 			SelectedDateRoutes.Clear();
-
 			List<int> routeIdsList = new List<int>();
-
 			foreach (var ticket in SelectedDateTickets)
 			{
 				if (!routeIdsList.Contains(ticket.RouteId))
@@ -154,7 +164,7 @@ namespace BusStationAutomatedInformationSystem
 			foreach (var route in SelectedDateRoutes)
 			{
 				var result = BusExtensions.GetBusDriverArrayByBusNumber(route.RouteNumber);
-                string resultString = $"{result[0].ToString()}#{result[1].ToString()} {result[2].ToString()[0]}. {result[3].ToString()[0]}.";
+                string resultString = $"{result[0].ToString()}#{result[1].ToString()} {result[2].ToString()} {result[3].ToString()}";
 
                 busComboBox.Items.Add(resultString);
 			}
@@ -165,7 +175,7 @@ namespace BusStationAutomatedInformationSystem
 			ComboBox cb = sender as ComboBox;
 			string busDriverString = (sender as ComboBox).SelectedItem.ToString();
 			string driverNamePattern = "(?<=#).*";
-			DriverName = new Regex(driverNamePattern).Match(busDriverString).Value;
+			DriverFullName = new Regex(driverNamePattern).Match(busDriverString).Value;
 			string busNumberPattern = "^[^#]*";
 			BusNumber = Int32.Parse(new Regex(busNumberPattern).Match(busDriverString).Value);
 			DeparturePointName = SelectedDateRoutes.Find(x => x.RouteNumber == BusNumber).DeparturePointString;
@@ -173,6 +183,16 @@ namespace BusStationAutomatedInformationSystem
 			DepartureTime = SelectedDate.Add(TimeSpan.Parse(SelectedDateRoutes.Find(x => x.DeparturePointString == DeparturePointName && x.DestinationPointString == DestinationPointName && x.RouteNumber == BusNumber).DepartureTime));
 			TicketsCount = SelectedDateTickets.FindAll(x => x.TripDate == SelectedDate && x.RouteId == RouteExtensions.GetRouteIdByNumber(BusNumber)).Count;
 			UpdateInfoGrid();
+        }
+
+        private void infoGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+			applyButton.Enabled = false;
+        }
+
+        private void infoGrid_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+			applyButton.Enabled = true;
         }
     }
 }
