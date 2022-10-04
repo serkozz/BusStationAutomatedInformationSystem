@@ -34,6 +34,7 @@
             this.tripHistoryGrid = new System.Windows.Forms.DataGridView();
             this.displayPastTripsCheckBox = new System.Windows.Forms.CheckBox();
             this.sellTicketButton = new System.Windows.Forms.Button();
+            this.iAmDriverCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.tripHistoryGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,7 +78,7 @@
             // 
             this.displayPastTripsCheckBox.AutoSize = true;
             this.displayPastTripsCheckBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.displayPastTripsCheckBox.Location = new System.Drawing.Point(12, 122);
+            this.displayPastTripsCheckBox.Location = new System.Drawing.Point(12, 104);
             this.displayPastTripsCheckBox.Name = "displayPastTripsCheckBox";
             this.displayPastTripsCheckBox.Size = new System.Drawing.Size(522, 31);
             this.displayPastTripsCheckBox.TabIndex = 38;
@@ -97,11 +98,24 @@
             this.sellTicketButton.UseVisualStyleBackColor = true;
             this.sellTicketButton.Click += new System.EventHandler(this.sellTicketButton_Click);
             // 
+            // iAmDriverCheckBox
+            // 
+            this.iAmDriverCheckBox.AutoSize = true;
+            this.iAmDriverCheckBox.Font = new System.Drawing.Font("Tahoma", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.iAmDriverCheckBox.Location = new System.Drawing.Point(12, 141);
+            this.iAmDriverCheckBox.Name = "iAmDriverCheckBox";
+            this.iAmDriverCheckBox.Size = new System.Drawing.Size(551, 31);
+            this.iAmDriverCheckBox.TabIndex = 40;
+            this.iAmDriverCheckBox.Text = "Отобразить историю рейсов (для водителей)";
+            this.iAmDriverCheckBox.UseVisualStyleBackColor = true;
+            this.iAmDriverCheckBox.CheckedChanged += new System.EventHandler(this.iAmDriverCheckBox_CheckedChanged);
+            // 
             // TripHistoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1382, 753);
+            this.Controls.Add(this.iAmDriverCheckBox);
             this.Controls.Add(this.sellTicketButton);
             this.Controls.Add(this.displayPastTripsCheckBox);
             this.Controls.Add(this.tripHistoryGrid);
@@ -122,5 +136,6 @@
         private System.Windows.Forms.DataGridView tripHistoryGrid;
         private System.Windows.Forms.CheckBox displayPastTripsCheckBox;
         private System.Windows.Forms.Button sellTicketButton;
+        private System.Windows.Forms.CheckBox iAmDriverCheckBox;
     }
 }

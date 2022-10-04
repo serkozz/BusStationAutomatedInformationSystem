@@ -126,8 +126,8 @@ namespace BusStationAutomatedInformationSystem
         {
 			try
 			{
-			Route rt = SelectedDateRoutes.Find(x => x.RouteNumber == BusNumber);
-			Voyage voyage = new Voyage(rt.Id,
+				Route rt = SelectedDateRoutes.Find(x => x.RouteNumber == BusNumber);
+				Voyage voyage = new Voyage(rt.Id,
 				BusExtensions.GetBusIdByNumberAndDriverName(rt.RouteNumber, DriverFullName),
 				TicketsCount, DepartureTime);
                 MessageBox.Show("Автобус назначен на маршрут!!!", "Успех!", MessageBoxButtons.OK, MessageBoxIcon.Information);

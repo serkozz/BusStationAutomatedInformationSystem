@@ -28,6 +28,5 @@ namespace BusStationAutomatedInformationSystem
             TripDate = tripDate;
             Price = price;
         }
-
     }
 }

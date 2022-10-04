@@ -46,5 +46,13 @@ namespace BusStationAutomatedInformationSystem
 			routeFormNew.Show();
 			this.Hide();
 		}
+
+		private void analyticsPanelButton_Click(object sender, EventArgs e)
+		{
+			AnalyticsPanel analyticsPanel = new AnalyticsPanel(this);
+			analyticsPanel.Location = this.Location;
+			analyticsPanel.Show();
+			this.Hide();
+		}
 	}
 }

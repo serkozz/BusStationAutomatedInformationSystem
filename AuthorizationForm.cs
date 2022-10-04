@@ -68,8 +68,11 @@ namespace BusStationAutomatedInformationSystem
         {
             try
             {
+                if (loginTextBox.Text.Length < 5 || passwordTextBox.Text.Length < 5)
+                    return;
+
                 _connection.Open();
-                string existCheckSql = $@"SELECT EXISTS(SELECT * FROM users WHERE login = '{loginTextBox.Text}')";
+                string existCheckSql = $@"SELECT EXISTS (SELECT * FROM users WHERE login = '{loginTextBox.Text}')";
                 NpgsqlCommand isUserExistCommand = new NpgsqlCommand(existCheckSql, _connection);
                 bool isUserAlreadyExist = (bool)isUserExistCommand.ExecuteScalar();
 
@@ -104,11 +107,6 @@ namespace BusStationAutomatedInformationSystem
             {
                 MessageBox.Show("Упс, что-то пошло не так: " + ex.Message, "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void AuthorizationForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
         }
     }
 }

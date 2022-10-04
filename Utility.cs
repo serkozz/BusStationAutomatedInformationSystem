@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
 using Npgsql;
+
 namespace BusStationAutomatedInformationSystem
 {
 	public static class Constants
@@ -371,15 +372,32 @@ namespace BusStationAutomatedInformationSystem
 				//GET
 				NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
 				connection.Open();
-				string _sql = @$"insert into ticket (profile_id,route_id,trip_date,price) values ({ticket.ProfileId}, {ticket.RouteId}, '{ticket.TripDate.Year.ToString()}-{ticket.TripDate.Month.ToString()}-{ticket.TripDate.Day.ToString()}', {ticket.Price}) RETURNING id";
-				var _cmd = new NpgsqlCommand(_sql, connection);
+				string duplicateCheck = @$"SELECT (id) from ticket WHERE profile_id = {ticket.ProfileId}
+					AND route_id = {ticket.RouteId}
+					AND trip_date = '{ticket.TripDate.Year.ToString()}-{ticket.TripDate.Month.ToString()}-{ticket.TripDate.Day.ToString()}'
+					AND price = {ticket.Price};";
+
+				var _cmd = new NpgsqlCommand(duplicateCheck, connection);
 				object result = _cmd.ExecuteScalar();
-				connection.Close();
 
 				if (result != null)
+				{
+					connection.Close();
 					return (int)result;
+				}
 				else
-					return -1;
+				{
+					string _sql = @$"insert into ticket (profile_id,route_id,trip_date,price) values ({ticket.ProfileId}, {ticket.RouteId}, '{ticket.TripDate.Year.ToString()}-{ticket.TripDate.Month.ToString()}-{ticket.TripDate.Day.ToString()}', {ticket.Price}) RETURNING id";
+					_cmd = new NpgsqlCommand(_sql, connection);
+					result = _cmd.ExecuteScalar();
+					connection.Close();
+
+					if (result != null)
+						return (int)result;
+					else
+						return -1;
+				}
+
 			}
 			catch (Exception ex)
 			{
@@ -489,6 +507,13 @@ namespace BusStationAutomatedInformationSystem
 				//GET
 				NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
 				connection.Open();
+				string duplicateCheckSql = $"SELECT id FROM voyage WHERE route_id ={voyage.RouteId} AND bus_id ={voyage.BusId} AND tickets_count ={voyage.TicketsCount} AND departure_time = '{voyage.DepartureTime}'";
+				var duplicateCheckCommand = new NpgsqlCommand(duplicateCheckSql, connection);
+				var duplicateResult = duplicateCheckCommand.ExecuteScalar();
+
+				if (duplicateResult != null)
+					return - 1;
+
 				string _sql = @$"insert into voyage (route_id,bus_id,tickets_count,departure_time) values ({voyage.RouteId}, {voyage.BusId}, {voyage.TicketsCount}, '{voyage.DepartureTime}') RETURNING id";
 				var _cmd = new NpgsqlCommand(_sql, connection);
 				object result = _cmd.ExecuteScalar();
@@ -504,6 +529,39 @@ namespace BusStationAutomatedInformationSystem
 				System.Windows.Forms.MessageBox.Show("Не удалось обновить данные о билете!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 				return -1;  
 			}
+		}
+
+		public static List<Tuple<int,string,string,DateTime,int>> GetDriverRoutesHistory(int driverProfileId)
+		{
+			List<Tuple<int,string,string,DateTime,int>> resultList = new List<Tuple<int, string, string, DateTime, int>>();
+			NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+			connection.Open();
+			string sql = @$"select (route_number,a1.city,a1.street,a1.house,a2.city,a2.street,a2.house,voyage.departure_time,voyage.tickets_count) FROM voyage
+						LEFT JOIN bus ON voyage.bus_id = bus.id
+						LEFT JOIN employee ON driver_emloyee_id = employee.id
+						LEFT JOIN route ON route_id = route.id
+						LEFT JOIN address AS a1 ON departure_point_id = a1.id
+						LEFT JOIN address AS a2 ON destination_point_id = a2.id
+						WHERE profile_id = {driverProfileId};";
+			var _cmd = new NpgsqlCommand(sql, connection);
+			NpgsqlDataReader reader = _cmd.ExecuteReader();
+
+			if (reader.HasRows) // если есть данные
+			{
+				while (reader.Read()) // построчно считываем данные
+				{
+					object[] resArray = reader.GetValue(0) as object[];
+					int number = (int)resArray[0];
+					string fromString = string.Empty + resArray[1].ToString() + " " + resArray[2].ToString() + " " + resArray[3].ToString();
+					string toString = string.Empty + resArray[4].ToString() + " " + resArray[5].ToString() + " " + resArray[6].ToString();
+					DateTime dateTime = (DateTime)resArray[7];
+					int ticketsCount = (int)resArray[8];
+
+					resultList.Add(Tuple.Create(number, fromString, toString, dateTime, ticketsCount));
+				}
+			}
+
+			return resultList;
 		}
 	}
 
@@ -544,6 +602,30 @@ namespace BusStationAutomatedInformationSystem
 			{
 				System.Windows.Forms.MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 				return -1;
+			}
+		}
+	}
+
+	public static class EmployeeExtensions
+	{
+		public static bool IsProfileADriver(int profile_id)
+		{
+			try
+			{
+				NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
+				connection.Open();
+				string _sql = @$"SELECT (id) FROM employee WHERE profile_id = {profile_id}";
+				var _cmd = new NpgsqlCommand(_sql, connection);
+				var res = _cmd.ExecuteScalar();
+				if (res != null)
+					return true;
+				else
+					return false;
+			}
+			catch (System.Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show("Произошла ошибка!!!" + ex.Message, "Неудача", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+				return false;
 			}
 		}
 	}

@@ -92,6 +92,7 @@
             this.analyticsPanelButton.TabIndex = 13;
             this.analyticsPanelButton.Text = "\r\n\r\n\r\n\r\n\r\nАналитика";
             this.analyticsPanelButton.UseVisualStyleBackColor = true;
+            this.analyticsPanelButton.Click += new System.EventHandler(this.analyticsPanelButton_Click);
             // 
             // MainForm
             // 

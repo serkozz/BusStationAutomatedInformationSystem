@@ -42,9 +42,9 @@ namespace BusStationAutomatedInformationSystem
 
             if (selectedDate != DateTime.MinValue && selectedRouteDateTime.Subtract(DateTime.Now) > TimeSpan.Zero)
             {
-            Ticket ticket = new Ticket(Profile.Id, RouteForm.SelectedRoute.Id, selectedDate, tripPrice);
-            buyTicketButton.Enabled = false;
-            MessageBox.Show("Билет успешно приобретен!!!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Ticket ticket = new Ticket(Profile.Id, RouteForm.SelectedRoute.Id, selectedDate, tripPrice);
+                buyTicketButton.Enabled = false;
+                MessageBox.Show("Билет успешно приобретен!!!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
                 MessageBox.Show("Выберите корректную дату поездки!!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);

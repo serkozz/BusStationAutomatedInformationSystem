@@ -115,7 +115,6 @@
             this.Controls.Add(this.loginTextBox);
             this.Name = "AuthorizationForm";
             this.Text = "AuthorizationForm";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AuthorizationForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -185,11 +185,6 @@ namespace BusStationAutomatedInformationSystem
 
 		}
 
-		private void AdminPanel_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			connection.Close();
-		}
-
 		private void FIllComboboxWithTables()
 		{
 			try
