@@ -1,6 +1,6 @@
 ﻿namespace BusStationAutomatedInformationSystem
 {
-    partial class CasheSqlForm
+    partial class CacheSqlForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CasheSqlForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CacheSqlForm));
             this.sqlTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.keySequenceTextBox = new System.Windows.Forms.TextBox();
@@ -76,7 +76,6 @@
             // cancelButton
             // 
             this.cancelButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
             this.cancelButton.Location = new System.Drawing.Point(26, 167);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(173, 123);
@@ -88,7 +87,6 @@
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
             this.saveButton.Location = new System.Drawing.Point(779, 167);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(173, 123);

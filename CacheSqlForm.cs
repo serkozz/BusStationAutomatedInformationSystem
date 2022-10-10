@@ -11,31 +11,32 @@ using Npgsql;
 
 namespace BusStationAutomatedInformationSystem
 {
-    public partial class CasheSqlForm : Form
+    public partial class CacheSqlForm : Form
     {
         public AnalyticsPanel AnalyticsPanel { get; }
-        public string SQL { get; private set; }
-        public string KeySentence { get; private set; }
+        public string SQL { get; set; }
+        public string KeySentence { get; set; }
 
-        public CasheSqlForm(AnalyticsPanel analyticsPanel)
+        public CacheSqlForm(AnalyticsPanel analyticsPanel)
         {
             InitializeComponent();
             AnalyticsPanel = analyticsPanel;
             SQL = AnalyticsPanel.SqlCommand;
             sqlTextBox.Text = SQL;
-            
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            SQL = sqlTextBox.Text.ToLower();
-            KeySentence = keySequenceTextBox.Text.ToLower();
+            SQL = sqlTextBox.Text;
+            KeySentence = keySequenceTextBox.Text;
 
-            if (ValidateSQL(SQL) && KeySentence.Length > 5)
+            if (ValidateSQL() && KeySentence.Length > 5)
             {
-                if (CacheSQL() == 1)
+                SQL = SQL.Replace("'", "''");
+                int result = CacheSQL();
+                if (result == 1)
                     MessageBox.Show("SQL запрос успешно закеширован!!", "Успех!!!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else if (CacheSQL() == 0)
+                else if (result == 0)
                     MessageBox.Show("SQL запрос с подобным ключом или телом уже существует!!", "Неудача!!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
@@ -52,10 +53,10 @@ namespace BusStationAutomatedInformationSystem
         {
             try
             {
-                NpgsqlConnection connection = new Npgsql.NpgsqlConnection(Constants._connectionString);
+                NpgsqlConnection connection = new NpgsqlConnection(Constants._connectionString);
                 connection.Open();
-                string duplicateCheck = @$"select (id) from cached_sql where key_sentence = '{KeySentence}' OR sql_string = '{SQL}'";
-                string cmdText = @$"insert into cached_sql (key_sentence,sql_string) values ('{KeySentence}', '{SQL}') returning id";
+                string duplicateCheck = $"select (id) from cached_sql where key_sentence = '{KeySentence}' OR sql_string = '{SQL}'";
+                string cmdText = $"insert into cached_sql (key_sentence,sql_string) values ('{KeySentence}', '{SQL}') returning id;";
                 var _cmd = new NpgsqlCommand(duplicateCheck, connection);
                 var result = _cmd.ExecuteScalar();
 
@@ -79,14 +80,15 @@ namespace BusStationAutomatedInformationSystem
             }
         }
 
-        private bool ValidateSQL(string sql)
+        private bool ValidateSQL()
         {
             try
             {
                 NpgsqlConnection connection = new Npgsql.NpgsqlConnection(Constants._connectionString);
                 connection.Open();
-                var _cmd = new NpgsqlCommand(sql, connection);
+                var _cmd = new NpgsqlCommand(SQL, connection);
                 var result = _cmd.ExecuteScalar();
+                connection.Close();
 
                 if (result != null) // Запрос выполняется и есть результат
                     return true;

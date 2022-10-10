@@ -24,7 +24,7 @@ namespace BusStationAutomatedInformationSystem
 
 		private void adminPanelButton_Click(object sender, EventArgs e)
 		{
-			AdminPermissionForm adminPermissionForm = new AdminPermissionForm(this);
+			AdminPermissionForm adminPermissionForm = new AdminPermissionForm(this, FormRequiringPassword.AdminPanel);
 			adminPermissionForm.Location = this.Location;
 			adminPermissionForm.Show();
 			this.Hide();
@@ -49,10 +49,15 @@ namespace BusStationAutomatedInformationSystem
 
 		private void analyticsPanelButton_Click(object sender, EventArgs e)
 		{
-			AnalyticsPanel analyticsPanel = new AnalyticsPanel(this);
-			analyticsPanel.Location = this.Location;
-			analyticsPanel.Show();
+			AdminPermissionForm adminPermissionForm = new AdminPermissionForm(this, FormRequiringPassword.AnalyticsPanel);
+			adminPermissionForm.Location = this.Location;
+			adminPermissionForm.Show();
 			this.Hide();
+
+			// AnalyticsPanel analyticsPanel = new AnalyticsPanel(this);
+			// analyticsPanel.Location = this.Location;
+			// analyticsPanel.Show();
+			// this.Hide();
 		}
 	}
 }
